@@ -149,7 +149,7 @@ const Login = () => {
       </Button>
         <Typography mt={2}>
             Mot de passe oublié ?{" "}
-            <Link to="/register" style={{ color: "blue", textDecoration: "underline" }}>
+            <Link to="/formnmotdepasse" style={{ color: "blue", textDecoration: "underline" }}>
                 Regénérer mot de passe
             </Link>
         </Typography>

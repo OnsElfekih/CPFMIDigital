@@ -3,6 +3,49 @@ const bcrypt = require("bcryptjs");
 const config = require("config");
 const jwt = require("jsonwebtoken");
 const User = require("../../models/User");
+const { Resend } = require("resend");
+
+const resend = new Resend("re_ghCMdVbG_6rCSZHZs4QgXQFy8bMw8yKBy");
+
+router.post("/resetpassword", async (req, res) => {
+  const { email } = req.body;
+
+  try {
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(404).json({ message: "Utilisateur non trouvé" });
+    }
+
+    const generatePassword = () => {
+      const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+      let password = "";
+      for (let i = 0; i < 10; i++) {
+        password += chars.charAt(Math.floor(Math.random() * chars.length));
+      }
+      return password;
+    };
+
+    const newPassword = generatePassword();
+    console.log("Mot de passe envoyé:", newPassword);
+
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+    user.password = hashedPassword;
+    await user.save();
+
+    await resend.emails.send({
+      from: "CPFMI Direction <onboarding@resend.dev>",
+      to: email,
+      subject: "Réinitialisation de votre mot de passe",
+      text: `Votre nouveau mot de passe est : ${newPassword}`,
+    });
+
+    return res.status(200).json({ message: "Le nouveau mot de passe est envoyé par email" });
+  } catch (error) {
+    return res.status(500).json({ message: "Erreur serveur", error: error.message });
+  }
+});
+
 
 router.post("/login", async (req, res) => {
   const { email, password, role } = req.body;
