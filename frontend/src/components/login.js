@@ -28,31 +28,43 @@ const Login = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    setError(null);
-    try {
-      const response = await fetch("http://localhost:3001/users/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  setLoading(true);
+  setError(null);
+  try {
+    const response = await fetch("http://localhost:3001/users/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(formData),
+    });
 
-      const data = await response.json();
+    const data = await response.json();
 
-      if (!response.ok) throw new Error(data.message || "Échec de la connexion");
+    if (!response.ok) throw new Error(data.message || "Échec de la connexion");
 
-      Cookies.set("token", data.token, { expires: 1, secure: true, sameSite: "Strict" });
-      Cookies.set("role", data.role, { expires: 1, secure: true, sameSite: "Strict" });
+    Cookies.set("token", data.token, { expires: 1, secure: true, sameSite: "Strict" });
+    Cookies.set("role", data.role, { expires: 1, secure: true, sameSite: "Strict" });
 
-      navigate("/home");
-    } catch (err) {
-      setError(err.message);
-    } finally {
-      setLoading(false);
+    switch (data.role) {
+      case "admin":
+        navigate("/homeAdmin");
+        break;
+      case "entreprise":
+        navigate("/homeentreprise");
+        break;
+      case "formateur":
+        navigate("/homeformateur");
+        break;
     }
-  };
+  } catch (err) {
+    setError(err.message);
+  } finally {
+    setLoading(false);
+  }
+};
+
+
 
   return (
 <Box
