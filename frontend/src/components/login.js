@@ -56,6 +56,8 @@ const handleSubmit = async (e) => {
       case "formateur":
         navigate("/homeformateur");
         break;
+          default:
+      break;
     }
   } catch (err) {
     setError(err.message);

@@ -1,6 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
  import Login from"./components/login";
- import Home from"./components/home"; // Page après connexion
 import FormNMotDePasse from "./components/formnmotdepasse";
 import HomeAdmin from "./components/homeAdmin";
 import HomeEntreprise from "./components/homeEntreprise";
@@ -10,7 +9,6 @@ function App() {
  <Router>
  <Routes>
  <Route path="/" element={<Login />} />
- <Route path="/home" element={<Home />} />
 <Route path="/formnmotdepasse" element={<FormNMotDePasse/>} />
 <Route path="/homeAdmin" element={<HomeAdmin/>} />
 <Route path="/homeEntreprise" element={<HomeEntreprise/>} />
