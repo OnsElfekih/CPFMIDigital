@@ -2,17 +2,17 @@ const express = require("express");
 const mongoose = require("mongoose");
 const config = require("config");
 const cors = require("cors");
-const users = require ("./routes/api/users");
-const formations = require("./routes/api/formations"); 
 
 const entrepriseRoutes = require('./routes/api/Entreprises');
 
 
 
 
+const users = require("./routes/api/users");
+const formations = require("./routes/api/formations");
 const formateurRoutes = require("./routes/api/formateurRoutes");
 const planningRoutes = require("./routes/api/planningRoutes");
-const mongo_url = config.get("mongo_url");
+
 const app = express();
 
 // Middlewares
@@ -39,6 +39,8 @@ app.use('/api/entreprises', entrepriseRoutes);
 // Connexion MongoDB
 
 
+// Connexion MongoDB
+const mongo_url = "mongodb://localhost:27017/CPFMI"; // ta base CPFMI
 
 mongoose.set("strictQuery", true);
 mongoose
@@ -47,6 +49,11 @@ mongoose
   .catch((err) => console.log(err));
 
 
+// Routes
+app.use("/users", users);
+app.use("/api/formations", formations);
+app.use("/api/planning", planningRoutes);
+app.use("/api/formateurs", formateurRoutes);
 
 // Démarrage du serveur
 const port = process.env.PORT || 3001;
