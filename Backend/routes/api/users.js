@@ -1,6 +1,6 @@
-const router = require("express").Router();
+const express = require("express");
+const router = express.Router();
 const bcrypt = require("bcryptjs");
-const config = require("config");
 const jwt = require("jsonwebtoken");
 const User = require("../../models/User");
 const { Resend } = require("resend");
@@ -85,6 +85,8 @@ router.post("/resetpassword", async (req, res) => {
 });
 
 
+
+// 📌 LOGIN
 router.post("/login", async (req, res) => {
   const { email, password, role } = req.body;
   const ip = req.headers["x-forwarded-for"] || req.connection.remoteAddress;
@@ -106,7 +108,7 @@ router.post("/login", async (req, res) => {
 
     const token = jwt.sign(
       { id: user._id, role: user.role },
-      "jwtSecret",
+      "jwtSecret", // ⚠️ À remplacer par une vraie variable d’environnement plus tard
       { expiresIn: "1d" }
     );
 
@@ -149,8 +151,6 @@ res.json({
     res.status(500).json({ message: "Erreur serveur" });
   }
 });
-
-
 
 // Lire tous les utilisateurs (READ)
 router.get("/all", async (req, res) => {
@@ -207,28 +207,6 @@ router.put("/:id", async (req, res) => {
     res.status(500).json({ message: "Erreur lors de la mise à jour de l'utilisateur", error });
   }
 });
-
-// Supprimer un utilisateur par ID (DELETE)
-router.delete("/:id", async (req, res) => {
-  const { id } = req.params;
-
-  try {
-    const deletedUser = await User.findByIdAndDelete(id);
-
-    if (!deletedUser) {
-      return res.status(404).json({ message: "Utilisateur non trouvé" });
-    }
-
-    // Supprimer aussi les logs liés à cet email
-    await LoginLog.deleteMany({ email: deletedUser.email });
-
-    res.status(200).json({ message: "Utilisateur supprimé avec succès et logs supprimés" });
-  } catch (error) {
-    res.status(500).json({ message: "Erreur lors de la suppression de l'utilisateur", error });
-  }
-});
-
-
 
 
 module.exports = router;
