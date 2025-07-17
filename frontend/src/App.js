@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 
  import FormationTable from "./components/FormationTable";
- import Home from"./components/home"; // Page après connexion
+ 
 
 function App() {
  return (
@@ -15,7 +15,7 @@ function App() {
  <Route path="/formations" element={<FormationTable />} /> 
 
 
- <Route path="/home" element={<Home />} />
+
 
  </Routes>
  </Router>

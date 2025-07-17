@@ -6,19 +6,19 @@ import {
   TableHead, TableRow, Paper, Button, 
   IconButton, Typography, Box, 
   CircularProgress, Alert, Snackbar,
-  Dialog, DialogTitle, DialogContent, 
-  DialogActions, DialogContentText
+  Dialog, DialogTitle, DialogContent,
+  DialogActions, DialogContentText,
 } from '@mui/material';
 import { 
   Add as AddIcon, 
   Edit as EditIcon, 
   Delete as DeleteIcon,
-  Refresh as RefreshIcon
 } from '@mui/icons-material';
 
 const FormationTable = () => {
   const [openForm, setOpenForm] = useState(false);
   const [formations, setFormations] = useState([]);
+  const [entreprises, setEntreprises] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [editingFormation, setEditingFormation] = useState(null);
@@ -29,6 +29,7 @@ const FormationTable = () => {
     severity: 'success'
   });
 
+  // Charger formations
   const fetchFormations = async () => {
     setLoading(true);
     setError(null);
@@ -42,6 +43,22 @@ const FormationTable = () => {
       setLoading(false);
     }
   };
+
+  // Charger entreprises
+  const fetchEntreprises = async () => {
+    try {
+      const res = await axios.get("http://localhost:3001/api/entreprises");
+      setEntreprises(res.data.map(e => e.nom)); // Liste des noms uniquement
+    } catch (err) {
+      console.error("Erreur chargement entreprises:", err);
+      setEntreprises([]);
+    }
+  };
+
+  useEffect(() => {
+    fetchFormations();
+    fetchEntreprises();
+  }, []);
 
   const handleCreateFormation = async (newFormation) => {
     try {
@@ -109,10 +126,6 @@ const FormationTable = () => {
     }
   };
 
-  useEffect(() => {
-    fetchFormations();
-  }, []);
-
   const handleCloseSnackbar = () => {
     setSnackbar(prev => ({ ...prev, open: false }));
   };
@@ -126,25 +139,15 @@ const FormationTable = () => {
         mb: 3
       }}>
         <Typography variant="h4" component="h1" color="primary">
-          Gestion des Formations
+          Espace Formations
         </Typography>
-        <Box>
-          <Button 
-            variant="contained" 
-            startIcon={<RefreshIcon />}
-            onClick={fetchFormations}
-            sx={{ mr: 2 }}
-          >
-            Actualiser
-          </Button>
-          <Button 
-            variant="contained" 
-            startIcon={<AddIcon />}
-            onClick={() => setOpenForm(true)}
-          >
-            Nouvelle Formation
-          </Button>
-        </Box>
+        <Button 
+          variant="contained" 
+          startIcon={<AddIcon />}
+          onClick={() => setOpenForm(true)}
+        >
+          Nouvelle Formation
+        </Button>
       </Box>
 
       {loading ? (
@@ -157,7 +160,7 @@ const FormationTable = () => {
         </Alert>
       ) : (
         <TableContainer component={Paper} elevation={3}>
-          <Table sx={{ minWidth: 650 }} aria-label="table des formations">
+          <Table sx={{ minWidth: 650 }} aria-label="table des formations"  >
             <TableHead sx={{ bgcolor: 'primary.main' }}>
               <TableRow>
                 <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>Titre</TableCell>
@@ -166,26 +169,40 @@ const FormationTable = () => {
                 <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>Durée</TableCell>
                 <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>Date de début</TableCell>
                 <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>ID Session</TableCell>
+                <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>Entreprise</TableCell> {/* Nouvelle colonne */}
+                <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>Participants</TableCell>
                 <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>Actions</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
+              {formations.length === 0 && (
+                <TableRow>
+                  <TableCell colSpan={9} align="center" sx={{ py: 4 }}>
+                    <Typography variant="body1" color="textSecondary">
+                      Aucune formation disponible
+                    </Typography>
+                  </TableCell>
+                </TableRow>
+              )}
               {formations.map((formation) => (
                 <TableRow
                   key={formation._id}
                   sx={{ 
                     '&:last-child td, &:last-child th': { border: 0 },
-                    '&:hover': { backgroundColor: 'action.hover' }
+                    '&:hover': { 
+                      backgroundColor: '#e3f2fd', 
+                      cursor: 'pointer'
+                    }
                   }}
                 >
                   <TableCell>{formation.titre}</TableCell>
                   <TableCell>{formation.lieu}</TableCell>
                   <TableCell>{formation.theme}</TableCell>
                   <TableCell>{formation.duree} jours</TableCell>
-                  <TableCell>
-                    {new Date(formation.dateDebut).toLocaleDateString('fr-FR')}
-                  </TableCell>
+                  <TableCell>{new Date(formation.dateDebut).toLocaleDateString('fr-FR')}</TableCell>
                   <TableCell>{formation.idSession}</TableCell>
+                  <TableCell>{formation.entreprise || "-"}</TableCell> {/* Affichage entreprise */}
+                  <TableCell>{formation.participants}</TableCell>
                   <TableCell>
                     <IconButton 
                       color="primary"
@@ -203,15 +220,6 @@ const FormationTable = () => {
                   </TableCell>
                 </TableRow>
               ))}
-              {formations.length === 0 && (
-                <TableRow>
-                  <TableCell colSpan={7} align="center" sx={{ py: 4 }}>
-                    <Typography variant="body1" color="textSecondary">
-                      Aucune formation disponible
-                    </Typography>
-                  </TableCell>
-                </TableRow>
-              )}
             </TableBody>
           </Table>
         </TableContainer>
@@ -222,6 +230,7 @@ const FormationTable = () => {
         open={openForm} 
         onClose={() => setOpenForm(false)} 
         onSubmit={handleCreateFormation}
+        entreprises={entreprises} // <-- On passe la liste des entreprises ici
       />
 
       {/* Formulaire d'édition */}
@@ -231,6 +240,7 @@ const FormationTable = () => {
         onSubmit={handleUpdateFormation}
         initialData={editingFormation}
         isEditMode={true}
+        entreprises={entreprises} // <-- pareil ici
       />
 
       {/* Confirmation de suppression */}

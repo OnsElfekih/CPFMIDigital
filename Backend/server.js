@@ -5,15 +5,20 @@ const cors = require("cors");
 const users = require ("./routes/api/users");
 const formations = require("./routes/api/formations"); 
 
-const users = require("./routes/api/users");
+const entrepriseRoutes = require('./routes/api/Entreprises');
+
+
+
+
 const formateurRoutes = require("./routes/api/formateurRoutes");
 const planningRoutes = require("./routes/api/planningRoutes");
-
+const mongo_url = config.get("mongo_url");
 const app = express();
 
 // Middlewares
 app.use(express.json());
 app.use(cors());
+
 
 
 mongoose.set('strictQuery', true);
@@ -28,14 +33,20 @@ app.use("/api/formations", formations);
 app.use("/api/users", require("./routes/api/users"));
 app.use("/api/planning", planningRoutes);
 app.use("/api/formateurs", formateurRoutes);
+app.use('/api/entreprises', entrepriseRoutes);
+
 
 // Connexion MongoDB
-const mongo_url = config.get("mongo_url");
+
+
+
 mongoose.set("strictQuery", true);
 mongoose
   .connect(mongo_url)
   .then(() => console.log("MongoDB connected..."))
   .catch((err) => console.log(err));
+
+
 
 // Démarrage du serveur
 const port = process.env.PORT || 3001;

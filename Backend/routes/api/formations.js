@@ -1,7 +1,8 @@
 // backend/routes/formationRoutes.js
 const express = require("express");
 const router = express.Router();
-const Formation = require("../../models/Formation"); 
+const Formation = require("../../models/Formation");
+ 
 
 // 🔹 GET: récupérer toutes les formations
 router.get("/", async (req, res) => {
@@ -30,9 +31,12 @@ router.post("/", async (req, res) => {
       dateDebut: new Date(req.body.dateDebut),
       dateFin: new Date(req.body.dateFin),
       formateur: req.body.formateur.toString(), // Conversion explicite en string
-      lieu: req.body.lieu || "En ligne",
-      theme: req.body.theme || "Général",
+      lieu: req.body.lieu || "",
+      theme: req.body.theme || "",
       duree: req.body.duree || 1,
+      participants: req.body.participants || 1,
+      entreprise: req.body.entreprise || '',
+
       idSession: `FORM-${new Date().getFullYear()}-${Math.floor(1000 + Math.random() * 9000)}`
     };
 
