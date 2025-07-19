@@ -12,6 +12,7 @@ import CalendarCard from "./components/CalendarCard";
 import FormationForm from "./components/FormationForm";
 import ViewPlanning from "./components/ViewPlanning";
 import CombinedLayoutAdmin from "./components/CombinedLayoutAdmin";
+import ValidFormation from "./components/ValidFormation";
 
 function App() {
  return (
@@ -28,6 +29,7 @@ function App() {
      <Route path="/Planning" element={<ViewPlanning/>} />
     <Route path="/formations" element={<FormationTable/>} />
     <Route path="/navsidad" element={<CombinedLayoutAdmin/>} />
+          <Route path="/validation" element={<ValidFormation />} />
 
  </Routes>
  </Router>

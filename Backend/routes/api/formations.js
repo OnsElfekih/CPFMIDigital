@@ -1,75 +1,135 @@
-// backend/routes/formationRoutes.js
-const express = require("express");
+const express = require('express');
 const router = express.Router();
-const Formation = require("../../models/Formation");
- 
+const Formation = require('../../models/Formation');
 
-// 🔹 GET: récupérer toutes les formations
-router.get("/", async (req, res) => {
+// Middleware de validation
+const validateFormation = (req, res, next) => {
+  if (!req.body.titre) return res.status(400).json({ message: "Le titre est requis" });
+  if (!req.body.dateDebut) return res.status(400).json({ message: "La date de début est requise" });
+  if (!req.body.formateur) return res.status(400).json({ message: "Le formateur est requis" });
+  next();
+};
+
+// 🔹 GET: Récupérer toutes les formations avec filtres
+router.get('/', async (req, res) => {
   try {
-    const formations = await Formation.find().populate("formateur").populate("participants");
+    const { statut } = req.query;
+    const filter = statut ? { statut } : {};
+    
+    const formations = await Formation.find(filter)
+      .populate('formateur', 'nom email')
+      .populate('participants', 'nom email');
+      
     res.json(formations);
   } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
-});
-
-// 🔹 POST: créer une nouvelle formation
-// routes/formationRoutes.js
-router.post("/", async (req, res) => {
-  try {
-    console.log("Corps de la requête:", req.body);
-    
-    // Validation des champs obligatoires
-    if (!req.body.titre) return res.status(400).json({ message: "Le titre est requis" });
-    if (!req.body.dateDebut) return res.status(400).json({ message: "La date de début est requise" });
-    if (!req.body.formateur) return res.status(400).json({ message: "Le formateur est requis" });
-
-    const formationData = {
-      titre: req.body.titre,
-      description: req.body.description || "",
-      dateDebut: new Date(req.body.dateDebut),
-      dateFin: new Date(req.body.dateFin),
-      formateur: req.body.formateur.toString(), // Conversion explicite en string
-      lieu: req.body.lieu || "",
-      theme: req.body.theme || "",
-      duree: req.body.duree || 1,
-      participants: req.body.participants || 1,
-      entreprise: req.body.entreprise || '',
-
-      idSession: `FORM-${new Date().getFullYear()}-${Math.floor(1000 + Math.random() * 9000)}`
-    };
-
-    const nouvelleFormation = await Formation.create(formationData);
-    console.log("Formation créée:", nouvelleFormation);
-    
-    res.status(201).json(nouvelleFormation);
-  } catch (err) {
-    console.error("Erreur serveur:", err);
     res.status(500).json({ 
-      message: "Erreur lors de la création de la formation",
+      message: "Erreur de chargement",
       error: process.env.NODE_ENV === 'development' ? err.message : undefined
     });
   }
 });
 
-// 🔹 PUT: modifier une formation
-router.put("/:id", async (req, res) => {
+// 🔹 GET: Récupérer une formation spécifique
+router.get('/:id', async (req, res) => {
   try {
-    const updated = await Formation.findByIdAndUpdate(req.params.id, req.body, { new: true });
-    res.json(updated);
+    const formation = await Formation.findById(req.params.id)
+      .populate('formateur participants');
+      
+    if (!formation) {
+      return res.status(404).json({ message: "Formation non trouvée" });
+    }
+    res.json(formation);
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    res.status(500).json({ message: "Erreur de chargement" });
   }
 });
 
-// 🔹 DELETE: supprimer une formation
-router.delete("/:id", async (req, res) => {
+// 🔹 POST: Créer une nouvelle formation
+router.post('/', validateFormation, async (req, res) => {
   try {
-    await Formation.findByIdAndDelete(req.params.id);
-    res.json({ message: "Formation supprimée avec succès." });
+    const formationData = {
+      ...req.body,
+      idSession: `FORM-${new Date().getFullYear()}-${Math.floor(1000 + Math.random() * 9000)}`,
+      statut: 'en attente' // Valeur par défaut
+    };
+
+    const nouvelleFormation = await Formation.create(formationData);
+    res.status(201).json(nouvelleFormation);
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    res.status(500).json({ 
+      message: "Erreur de création",
+      error: process.env.NODE_ENV === 'development' ? err.message : undefined
+    });
+  }
+});
+
+// 🔹 PUT: Valider/Annuler une formation (SPÉCIFIQUE - Doit être avant la route générique)
+router.put('/:id/validate', async (req, res) => {
+  try {
+    const { action } = req.body;
+    
+    if (!['validate', 'cancel'].includes(action)) {
+      return res.status(400).json({ message: "Action invalide. Utilisez 'validate' ou 'cancel'" });
+    }
+
+    const statut = action === 'validate' ? 'validée' : 'annulée';
+    
+    const updated = await Formation.findByIdAndUpdate(
+      req.params.id,
+      { statut },
+      { new: true, runValidators: true }
+    ).populate('formateur participants');
+
+    if (!updated) {
+      return res.status(404).json({ message: "Formation non trouvée" });
+    }
+
+    res.json(updated);
+  } catch (err) {
+    res.status(500).json({ 
+      message: "Erreur de validation",
+      error: process.env.NODE_ENV === 'development' ? err.message : undefined
+    });
+  }
+});
+
+// 🔹 PUT: Modifier une formation (GÉNÉRIQUE)
+router.put('/:id', validateFormation, async (req, res) => {
+  try {
+    const updated = await Formation.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      { new: true, runValidators: true }
+    );
+    
+    if (!updated) {
+      return res.status(404).json({ message: "Formation non trouvée" });
+    }
+    
+    res.json(updated);
+  } catch (err) {
+    res.status(500).json({ 
+      message: "Erreur de modification",
+      error: process.env.NODE_ENV === 'development' ? err.message : undefined
+    });
+  }
+});
+
+// 🔹 DELETE: Supprimer une formation
+router.delete('/:id', async (req, res) => {
+  try {
+    const deleted = await Formation.findByIdAndDelete(req.params.id);
+    
+    if (!deleted) {
+      return res.status(404).json({ message: "Formation non trouvée" });
+    }
+    
+    res.json({ message: "Formation supprimée avec succès" });
+  } catch (err) {
+    res.status(500).json({ 
+      message: "Erreur de suppression",
+      error: process.env.NODE_ENV === 'development' ? err.message : undefined
+    });
   }
 });
 

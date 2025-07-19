@@ -24,6 +24,11 @@ entreprise: {
   type: String,
   required: true
 },
+ statut: {
+    type: String,
+    enum: ['en attente', 'validée', 'annulée'],
+    default: 'en attente'
+  }
 }, { timestamps: true });
 
 module.exports = mongoose.model('Formation', formationSchema);

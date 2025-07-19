@@ -1,4 +1,51 @@
 /* Navbar styles */
+
+/* Admin Layout */
+.admin-home {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* Navbar */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #0367A6;
+  color: white;
+  padding: 10px 20px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  z-index: 1000;
+}
+
+/* Main Content */
+.main-content {
+  margin-left: 80px;
+  padding-top: 60px;
+  transition: margin-left 0.3s ease;
+  width: calc(100% - 80px);
+  min-height: calc(100vh - 60px);
+  padding: 20px;
+}
+
+.main-content.sidebar-open {
+  margin-left: 200px;
+  width: calc(100% - 200px);
+}
+
+/* Sidebar */
+
+
+.sidebar.open {
+  width: 200px;
+}
+
+/* Le reste de vos styles existants peuvent rester inchangés */
+
 .navbar {
   display: flex;
   justify-content: space-between;

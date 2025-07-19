@@ -15,6 +15,8 @@ import {
   Delete as DeleteIcon,
 } from '@mui/icons-material';
 
+import CombinedLayoutAdmin from "./CombinedLayoutAdmin";
+
 const FormationTable = () => {
   const [openForm, setOpenForm] = useState(false);
   const [formations, setFormations] = useState([]);
@@ -28,6 +30,8 @@ const FormationTable = () => {
     message: '',
     severity: 'success'
   });
+
+  
 
   // Charger formations
   const fetchFormations = async () => {
@@ -43,6 +47,13 @@ const FormationTable = () => {
       setLoading(false);
     }
   };
+
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+
+const toggleSidebar = () => {
+  setIsSidebarOpen(prev => !prev);
+};
+
 
   // Charger entreprises
   const fetchEntreprises = async () => {
@@ -131,157 +142,174 @@ const FormationTable = () => {
   };
 
   return (
-    <Box sx={{ p: 3 }}>
-      <Box sx={{ 
-        display: 'flex', 
-        justifyContent: 'space-between', 
-        alignItems: 'center',
-        mb: 3
-      }}>
-        <Typography variant="h4" component="h1" color="primary">
-          Espace Formations
-        </Typography>
-        <Button 
-          variant="contained" 
-          startIcon={<AddIcon />}
-          onClick={() => setOpenForm(true)}
+  <div className="admin-home">
+    <CombinedLayoutAdmin
+      isSidebarOpen={isSidebarOpen}
+      toggleSidebar={toggleSidebar}
+    />
+
+    <div className={`main-content ${isSidebarOpen ? "sidebar-open" : ""}`}>
+      {/* En-tête ou texte d’intro */}
+      <h1>Bienvenue sur l'interface administrateur</h1>
+      
+
+      <Box sx={{ p: 3 }}>
+        {/* Titre + bouton */}
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            mb: 3,
+          }}
         >
-          Nouvelle Formation
-        </Button>
-      </Box>
-
-      {loading ? (
-        <Box sx={{ display: 'flex', justifyContent: 'center', mt: 4 }}>
-          <CircularProgress />
-        </Box>
-      ) : error ? (
-        <Alert severity="error" sx={{ mb: 3 }}>
-          {error}
-        </Alert>
-      ) : (
-        <TableContainer component={Paper} elevation={3}>
-          <Table sx={{ minWidth: 650 }} aria-label="table des formations"  >
-            <TableHead sx={{ bgcolor: 'primary.main' }}>
-              <TableRow>
-                <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>Titre</TableCell>
-                <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>Lieu</TableCell>
-                <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>Thème</TableCell>
-                <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>Durée</TableCell>
-                <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>Date de début</TableCell>
-                <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>ID Session</TableCell>
-                <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>Entreprise</TableCell> {/* Nouvelle colonne */}
-                <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>Participants</TableCell>
-                <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>Actions</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {formations.length === 0 && (
-                <TableRow>
-                  <TableCell colSpan={9} align="center" sx={{ py: 4 }}>
-                    <Typography variant="body1" color="textSecondary">
-                      Aucune formation disponible
-                    </Typography>
-                  </TableCell>
-                </TableRow>
-              )}
-              {formations.map((formation) => (
-                <TableRow
-                  key={formation._id}
-                  sx={{ 
-                    '&:last-child td, &:last-child th': { border: 0 },
-                    '&:hover': { 
-                      backgroundColor: '#e3f2fd', 
-                      cursor: 'pointer'
-                    }
-                  }}
-                >
-                  <TableCell>{formation.titre}</TableCell>
-                  <TableCell>{formation.lieu}</TableCell>
-                  <TableCell>{formation.theme}</TableCell>
-                  <TableCell>{formation.duree} jours</TableCell>
-                  <TableCell>{new Date(formation.dateDebut).toLocaleDateString('fr-FR')}</TableCell>
-                  <TableCell>{formation.idSession}</TableCell>
-                  <TableCell>{formation.entreprise || "-"}</TableCell> {/* Affichage entreprise */}
-                  <TableCell>{formation.participants}</TableCell>
-                  <TableCell>
-                    <IconButton 
-                      color="primary"
-                      onClick={() => setEditingFormation(formation)}
-                      sx={{ mr: 1 }}
-                    >
-                      <EditIcon />
-                    </IconButton>
-                    <IconButton 
-                      color="error"
-                      onClick={() => setDeleteConfirm(formation._id)}
-                    >
-                      <DeleteIcon />
-                    </IconButton>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      )}
-
-      {/* Formulaire de création */}
-      <FormationForm 
-        open={openForm} 
-        onClose={() => setOpenForm(false)} 
-        onSubmit={handleCreateFormation}
-        entreprises={entreprises} // <-- On passe la liste des entreprises ici
-      />
-
-      {/* Formulaire d'édition */}
-      <FormationForm 
-        open={Boolean(editingFormation)}
-        onClose={() => setEditingFormation(null)}
-        onSubmit={handleUpdateFormation}
-        initialData={editingFormation}
-        isEditMode={true}
-        entreprises={entreprises} // <-- pareil ici
-      />
-
-      {/* Confirmation de suppression */}
-      <Dialog
-        open={Boolean(deleteConfirm)}
-        onClose={() => setDeleteConfirm(null)}
-      >
-        <DialogTitle>Confirmer la suppression</DialogTitle>
-        <DialogContent>
-          <DialogContentText>
-            Êtes-vous sûr de vouloir supprimer cette formation ? Cette action est irréversible.
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setDeleteConfirm(null)}>Annuler</Button>
-          <Button 
-            onClick={confirmDelete} 
-            color="error"
+          <Typography variant="h4" component="h1" color="primary">
+            Espace Formations
+          </Typography>
+          <Button
             variant="contained"
+            startIcon={<AddIcon />}
+            onClick={() => setOpenForm(true)}
           >
-            Supprimer
+            Nouvelle Formation
           </Button>
-        </DialogActions>
-      </Dialog>
+        </Box>
 
-      {/* Notifications */}
-      <Snackbar
-        open={snackbar.open}
-        autoHideDuration={6000}
-        onClose={handleCloseSnackbar}
-      >
-        <Alert 
-          onClose={handleCloseSnackbar} 
-          severity={snackbar.severity}
-          sx={{ width: '100%' }}
+        {/* Affichage du tableau */}
+        {loading ? (
+          <Box sx={{ display: 'flex', justifyContent: 'center', mt: 4 }}>
+            <CircularProgress />
+          </Box>
+        ) : error ? (
+          <Alert severity="error" sx={{ mb: 3 }}>
+            {error}
+          </Alert>
+        ) : (
+          <TableContainer component={Paper} elevation={3}>
+            <Table sx={{ minWidth: 650 }} aria-label="table des formations">
+              <TableHead sx={{ bgcolor: 'primary.main' }}>
+                <TableRow>
+                  <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>Titre</TableCell>
+                  <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>Lieu</TableCell>
+                  <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>Thème</TableCell>
+                  <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>Durée</TableCell>
+                  <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>Date de début</TableCell>
+                  <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>ID Session</TableCell>
+                  <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>Entreprise</TableCell>
+                  <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>Participants</TableCell>
+                  <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>Actions</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {formations.length === 0 ? (
+                  <TableRow>
+                    <TableCell colSpan={9} align="center" sx={{ py: 4 }}>
+                      <Typography variant="body1" color="textSecondary">
+                        Aucune formation disponible
+                      </Typography>
+                    </TableCell>
+                  </TableRow>
+                ) : (
+                  formations.map((formation) => (
+                    <TableRow
+                      key={formation._id}
+                      sx={{
+                        '&:last-child td, &:last-child th': { border: 0 },
+                        '&:hover': {
+                          backgroundColor: '#e3f2fd',
+                          cursor: 'pointer',
+                        },
+                      }}
+                    >
+                      <TableCell>{formation.titre}</TableCell>
+                      <TableCell>{formation.lieu}</TableCell>
+                      <TableCell>{formation.theme}</TableCell>
+                      <TableCell>{formation.duree} jours</TableCell>
+                      <TableCell>
+                        {new Date(formation.dateDebut).toLocaleDateString('fr-FR')}
+                      </TableCell>
+                      <TableCell>{formation.idSession}</TableCell>
+                      <TableCell>{formation.entreprise || '-'}</TableCell>
+                      <TableCell>{formation.participants}</TableCell>
+                      <TableCell>
+                        <IconButton
+                          color="primary"
+                          onClick={() => setEditingFormation(formation)}
+                          sx={{ mr: 1 }}
+                        >
+                          <EditIcon />
+                        </IconButton>
+                        <IconButton
+                          color="error"
+                          onClick={() => setDeleteConfirm(formation._id)}
+                        >
+                          <DeleteIcon />
+                        </IconButton>
+                      </TableCell>
+                    </TableRow>
+                  ))
+                )}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        )}
+
+        {/* Modale de création */}
+        <FormationForm
+          open={openForm}
+          onClose={() => setOpenForm(false)}
+          onSubmit={handleCreateFormation}
+          entreprises={entreprises}
+        />
+
+        {/* Modale d’édition */}
+        <FormationForm
+          open={Boolean(editingFormation)}
+          onClose={() => setEditingFormation(null)}
+          onSubmit={handleUpdateFormation}
+          initialData={editingFormation}
+          isEditMode={true}
+          entreprises={entreprises}
+        />
+
+        {/* Dialog de suppression */}
+        <Dialog
+          open={Boolean(deleteConfirm)}
+          onClose={() => setDeleteConfirm(null)}
         >
-          {snackbar.message}
-        </Alert>
-      </Snackbar>
-    </Box>
-  );
-};
+          <DialogTitle>Confirmer la suppression</DialogTitle>
+          <DialogContent>
+            <DialogContentText>
+              Êtes-vous sûr de vouloir supprimer cette formation ? Cette action est irréversible.
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={() => setDeleteConfirm(null)}>Annuler</Button>
+            <Button onClick={confirmDelete} color="error" variant="contained">
+              Supprimer
+            </Button>
+          </DialogActions>
+        </Dialog>
 
+        {/* Snackbar */}
+        <Snackbar
+          open={snackbar.open}
+          autoHideDuration={6000}
+          onClose={handleCloseSnackbar}
+        >
+          <Alert
+            onClose={handleCloseSnackbar}
+            severity={snackbar.severity}
+            sx={{ width: '100%' }}
+          >
+            {snackbar.message}
+          </Alert>
+        </Snackbar>
+      </Box>
+    </div>
+  </div>
+  
+  
+);
+}
 export default FormationTable;
