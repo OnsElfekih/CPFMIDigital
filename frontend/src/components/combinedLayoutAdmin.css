@@ -1,0 +1,190 @@
+/* Navbar styles */
+
+/* Admin Layout */
+.admin-home {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* Navbar */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #0367A6;
+  color: white;
+  padding: 10px 20px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  z-index: 1000;
+}
+
+/* Main Content */
+.main-content {
+  margin-left: 80px;
+  padding-top: 60px;
+  transition: margin-left 0.3s ease;
+  width: calc(100% - 80px);
+  min-height: calc(100vh - 60px);
+  padding: 20px;
+}
+
+.main-content.sidebar-open {
+  margin-left: 200px;
+  width: calc(100% - 200px);
+}
+
+/* Sidebar */
+
+
+.sidebar.open {
+  width: 200px;
+}
+
+/* Le reste de vos styles existants peuvent rester inchangés */
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #0367A6;
+  color: white;
+  padding: 10px 20px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  z-index: 1000;
+}
+
+.navbar-left {
+  display: flex;
+  align-items: center;
+}
+
+.navbar-left i {
+  font-size: 1.2rem;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+.navbar-left span {
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+.navbar-right i {
+  font-size: 1.2rem;
+  margin-left: 15px;
+  cursor: pointer;
+}
+
+/* Sidebar styles */
+.sidebar {
+  position: fixed;
+  top: 60px; /* sous la navbar */
+  left: 0;
+  width: 80px; /* fermé */
+  height: calc(100vh - 60px);
+  background-color: #0367A6;
+  color: white;
+  transition: width 0.3s ease;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 10px;
+  z-index: 999;
+}
+
+.sidebar.open {
+  width: 200px; /* ouvert */
+}
+
+.toggle-btn {
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+/* Animation rotation de l'icône menu */
+.sidebar.open ~ .navbar .toggle-btn {
+  transform: rotate(90deg);
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+  width: 100%;
+}
+
+.sidebar ul li {
+  display: flex;
+  align-items: center;
+  padding: 15px;
+  cursor: pointer;
+  transition: background 0.2s;
+  color: white;
+}
+
+.sidebar ul li:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.sidebar ul li i {
+  margin: 0 10px;
+  font-size: 1.5rem;
+  color: white;
+  min-width: 30px;
+  text-align: center;
+}
+
+.sidebar ul li span {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.sidebar.open ul li span {
+  opacity: 1;
+  margin-left: 10px;
+}
+
+.profile-container {
+  position: relative;
+  display: inline-block;
+}
+
+.profile-menu {
+  position: absolute;
+  top: 40px; /* plus d’espace sous l’icône */
+  right: 0;
+  background-color: white;
+  color: #333;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  min-width: 150px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  z-index: 1001;
+  overflow: hidden;
+}
+
+.profile-menu p {
+  margin: 0;
+  padding: 12px 15px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  transition: background 0.2s, color 0.2s;
+}
+
+.profile-menu p:hover {
+  background-color: #0367A6; /* couleur primaire */
+  color: white;
+}
+
+

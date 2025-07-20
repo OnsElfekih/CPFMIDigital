@@ -41,6 +41,12 @@ const handleSubmit = async (e) => {
 
     const data = await response.json();
 
+    localStorage.setItem("username", data.username);
+    localStorage.setItem("role", data.role);
+    localStorage.setItem("lastLoginDate", data.lastLoginDate);
+    localStorage.setItem("email", data.email);
+    localStorage.setItem("ip", data.ip);
+
     if (!response.ok) throw new Error(data.message || "Échec de la connexion");
 
     Cookies.set("token", data.token, { expires: 1, secure: true, sameSite: "Strict" });

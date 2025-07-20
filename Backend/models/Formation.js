@@ -10,11 +10,25 @@ const formationSchema = new mongoose.Schema({
     type: String,  // Type changé à String
     required: true 
   },
-  lieu: { type: String, default: "En ligne" },
-  theme: { type: String, default: "Général" },
-  duree: { type: Number, default: 1 },
+  lieu: { type: String},
+  theme: { type: String},
+  duree: { type: Number},
   idSession: { type: String, unique: true },
-  participants: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }]
+  participants: {
+  type: Number,
+  required: true,
+  min: 1,
+  max: 10,
+},
+entreprise: {
+  type: String,
+  required: true
+},
+ statut: {
+    type: String,
+    enum: ['en attente', 'validée', 'annulée'],
+    default: 'en attente'
+  }
 }, { timestamps: true });
 
 module.exports = mongoose.model('Formation', formationSchema);
