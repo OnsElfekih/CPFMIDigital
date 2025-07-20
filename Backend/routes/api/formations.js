@@ -4,12 +4,12 @@ const router = express.Router();
 const Formation = require("../../models/Formation"); 
 
 // 🔹 GET: récupérer toutes les formations
-router.get("/", async (req, res) => {
+router.get('/planning/:id', async (req, res) => {
   try {
-    const formations = await Formation.find().populate("formateur").populate("participants");
+    const formations = await Formation.find({ formateurId: req.params.id });
     res.json(formations);
-  } catch (err) {
-    res.status(500).json({ message: err.message });
+  } catch (error) {
+    res.status(500).json({ message: "Erreur serveur", error: error.message });
   }
 });
 

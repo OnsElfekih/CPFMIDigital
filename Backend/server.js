@@ -5,11 +5,14 @@ const cors = require("cors");
 const users = require ("./routes/api/users");
 const formations = require("./routes/api/formations"); 
 
-const users = require("./routes/api/users");
+
 const formateurRoutes = require("./routes/api/formateurRoutes");
 const planningRoutes = require("./routes/api/planningRoutes");
+const evaluationRoutes = require("./routes/api/evaluationRoutes");
 
 const app = express();
+
+const mongo_url = config.get("mongo_url");
 
 // Middlewares
 app.use(express.json());
@@ -29,8 +32,10 @@ app.use("/api/users", require("./routes/api/users"));
 app.use("/api/planning", planningRoutes);
 app.use("/api/formateurs", formateurRoutes);
 
+app.use("/api/evaluation", evaluationRoutes);
+
 // Connexion MongoDB
-const mongo_url = config.get("mongo_url");
+//const mongo_url = config.get("mongo_url");
 mongoose.set("strictQuery", true);
 mongoose
   .connect(mongo_url)
