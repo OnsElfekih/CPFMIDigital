@@ -93,6 +93,34 @@ router.put('/:id/validate', async (req, res) => {
   }
 });
 
+
+// 🔹 PUT: Mise à jour du contenu pédagogique uniquement
+router.put('/:id/contenu', async (req, res) => {
+  const { contenuPedagogique, objectifs, competences } = req.body;
+
+  try {
+    const updated = await Formation.findByIdAndUpdate(
+      req.params.id,
+      { contenuPedagogique, objectifs, competences },
+      { new: true, runValidators: true }
+    );
+
+    if (!updated) {
+      return res.status(404).json({ message: "Formation non trouvée" });
+    }
+
+    res.json(updated);
+  } catch (err) {
+    res.status(500).json({ 
+      message: "Erreur lors de la mise à jour du contenu pédagogique",
+      error: process.env.NODE_ENV === 'development' ? err.message : undefined
+    });
+  }
+});
+
+
+
+
 // 🔹 PUT: Modifier une formation (GÉNÉRIQUE)
 router.put('/:id', validateFormation, async (req, res) => {
   try {

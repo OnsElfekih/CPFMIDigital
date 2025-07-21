@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 
  import FormationTable from "./components/FormationTable";
-
 import HomeAdmin from "./components/homeAdmin";
 import HomeEntreprise from "./components/homeEntreprise";
 import HomeFormateur from "./components/homeFormateur";
@@ -30,6 +29,7 @@ function App() {
     <Route path="/formations" element={<FormationTable/>} />
     <Route path="/navsidad" element={<CombinedLayoutAdmin/>} />
           <Route path="/validation" element={<ValidFormation />} />
+
 
  </Routes>
  </Router>
