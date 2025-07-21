@@ -2,8 +2,8 @@ const Formateur = require('../models/formateurModel');
 
 const addFormateur = async (req, res) => {
   try {
-    const { nom, prenom, email, planning } = req.body;
-    const nouveauFormateur = new Formateur({ nom, prenom, email, planning });
+    const { nom, prenom, email, planning, domaine, diplome } = req.body;
+    const nouveauFormateur = new Formateur({ nom, prenom, email, planning, domaine, diplome });
     await nouveauFormateur.save();
     res.status(201).json({ message: 'Formateur ajouté avec succès' });
   } catch (error) {

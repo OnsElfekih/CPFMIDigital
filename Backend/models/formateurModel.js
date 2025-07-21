@@ -6,7 +6,10 @@ const formateurSchema = new mongoose.Schema({
     prenom: String,
     email: String,
     specialite: String,
-    planning: String
+    planning: String,
+    diplome: String,
+    domaine: String
+
     // Ajoute d'autres champs si nécessaire
 });
 

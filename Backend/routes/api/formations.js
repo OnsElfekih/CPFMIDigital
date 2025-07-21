@@ -10,22 +10,13 @@ const validateFormation = (req, res, next) => {
   next();
 };
 
-// 🔹 GET: Récupérer toutes les formations avec filtres
-router.get('/', async (req, res) => {
+// 🔹 GET: récupérer toutes les formations
+router.get("/", async (req, res) => {
   try {
-    const { statut } = req.query;
-    const filter = statut ? { statut } : {};
-    
-    const formations = await Formation.find(filter)
-      .populate('formateur', 'nom email')
-      .populate('participants', 'nom email');
-      
+    const formations = await Formation.find().populate("formateur").populate("participants");
     res.json(formations);
   } catch (err) {
-    res.status(500).json({ 
-      message: "Erreur de chargement",
-      error: process.env.NODE_ENV === 'development' ? err.message : undefined
-    });
+    res.status(500).json({ message: err.message });
   }
 });
 
