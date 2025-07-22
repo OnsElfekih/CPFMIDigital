@@ -1,7 +1,6 @@
 import React, {  useState, useEffect, useRef } from "react";
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import "./combinedLayoutAdmin.css";
-import { Link } from "react-router-dom";
 
 const CombinedLayoutAdmin = ({ isSidebarOpen, toggleSidebar }) => {
   const [showProfileMenu, setShowProfileMenu] = useState(false);
