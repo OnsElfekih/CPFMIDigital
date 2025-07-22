@@ -9,6 +9,7 @@ const UpdateAdmin = () => {
 
   const [admin, setAdmin] = useState({ username: "", email: "", password: "" });
   const [adminId, setAdminId] = useState("");
+  const [success, setSuccess] = useState(""); 
 
   useEffect(() => {
     document.title = "Mise à jour Admin";
@@ -45,7 +46,7 @@ const UpdateAdmin = () => {
 
     axios.put(`http://localhost:3001/users/${adminId}`, admin)
       .then(() => {
-        alert("Admin mis à jour");
+        setSuccess("La mise à jour a été faite avec succès"); 
         localStorage.setItem("username", admin.username);
         localStorage.setItem("email", admin.email);
         localStorage.setItem("password", admin.password);
@@ -67,6 +68,7 @@ const UpdateAdmin = () => {
         }}
       >
         <h2>Mise à jour de l'admin</h2>
+        {success && <p style={{ color: "green" }}>{success}</p>} {/* affichage */}
         <form className="update-admin-form" onSubmit={handleSubmit}>
           <div>
             <label>Nom d'utilisateur :</label>
@@ -87,14 +89,14 @@ const UpdateAdmin = () => {
             />
           </div>
           <div>
-          <label>Mot de passe :</label>
-          <input
-            type="password"
-            name="password"
-            value={admin.password}
-            onChange={handleChange}
-          />
-        </div>
+            <label>Mot de passe :</label>
+            <input
+              type="password"
+              name="password"
+              value={admin.password}
+              onChange={handleChange}
+            />
+          </div>
           <button type="submit" className="update-admin-button">
             Mettre à jour
           </button>
