@@ -1,6 +1,7 @@
 import React, {  useState, useEffect, useRef } from "react";
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import "./combinedLayoutAdmin.css";
+import { Link } from "react-router-dom";
 
 const CombinedLayoutAdmin = ({ isSidebarOpen, toggleSidebar }) => {
   const [showProfileMenu, setShowProfileMenu] = useState(false);
@@ -34,27 +35,32 @@ const CombinedLayoutAdmin = ({ isSidebarOpen, toggleSidebar }) => {
           <i className="bi bi-bell"></i>
           <div className="profile-container" ref={menuRef}>
             <i className="bi bi-person-circle" onClick={toggleProfileMenu}></i>
-{showProfileMenu && (
-  <div className="profile-menu">
-    <p>
-      <i className="bi bi-person"></i> Profil
-    </p>
-    <p
-      style={{ cursor: "pointer" }}
-      onClick={() => (window.location.href = "/")}
-    >
-      <i className="bi bi-box-arrow-right"></i> Logout
-    </p>
-  </div>
-)}
-
+              {showProfileMenu && (
+                <div className="profile-menu">
+                  <p
+                    style={{ cursor: "pointer" }}
+                    onClick={() => (window.location.href = "/updateAdmin")}
+                  >
+                    <i className="bi bi-person"></i> Profil
+                  </p>
+                  <p
+                    style={{ cursor: "pointer" }}
+                    onClick={() => (window.location.href = "/")}
+                  >
+                    <i className="bi bi-box-arrow-right"></i> Logout
+                  </p>
+                </div>
+              )}
           </div>
         </div>
       </nav>
 
       <aside className={`sidebar ${isSidebarOpen ? "open" : ""}`}>
         <ul>
-          <li>
+        <li
+          style={{ cursor: "pointer" }}
+          onClick={() => (window.location.href = "/homeAdmin")}
+        >
             <i className="bi bi-speedometer2"></i>
             <span>Dashboard</span>
           </li>
@@ -74,10 +80,13 @@ const CombinedLayoutAdmin = ({ isSidebarOpen, toggleSidebar }) => {
             <i className="bi bi-info-circle"></i>
             <span>Formations</span>
           </li>
-          <li>
-            <i className="bi bi-award"></i>
-            <span>Certifications</span>
-          </li>
+<li
+  style={{ cursor: "pointer" }}
+  onClick={() => (window.location.href = "/certifications")}
+>
+  <i className="bi bi-award"></i>
+  <span>Certifications</span>
+</li>
         </ul>
       </aside>
     </>

@@ -108,14 +108,13 @@ router.post("/login", async (req, res) => {
 
     const token = jwt.sign(
       { id: user._id, role: user.role },
-      "jwtSecret", // ⚠️ À remplacer par une vraie variable d’environnement plus tard
+      "jwtSecret",
       { expiresIn: "1d" }
     );
 
     success = true;
     await LoginLog.create({ email, role, ip, success });
 
-    // Chercher la dernière connexion avant celle-ci
     const lastLogin = await LoginLog.findOne({
       email,
       role,
@@ -124,33 +123,34 @@ router.post("/login", async (req, res) => {
     .sort({ date: -1 })
     .skip(1);
 
-const lastLoginDateFormatted = lastLogin
-  ? new Date(lastLogin.date).toLocaleString("fr-FR", {
-      timeZone: "Africa/Tunis",
-      weekday: "long", 
-      day: "2-digit",
-      month: "2-digit",
-      year: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-      second: "2-digit",
-      hour12: false // format 24h
-    }).replace(",", "")
-  : null;
+    const lastLoginDateFormatted = lastLogin
+      ? new Date(lastLogin.date).toLocaleString("fr-FR", {
+          timeZone: "Africa/Tunis",
+          weekday: "long",
+          day: "2-digit",
+          month: "2-digit",
+          year: "numeric",
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit",
+          hour12: false
+        }).replace(",", "")
+      : null;
 
-
-res.json({
-  token,
-  role: user.role,
-  username: user.username,
-  lastLoginDate: lastLoginDateFormatted,
-  email: user.email,
-  ip: ip,
-});
+    res.json({
+      token,
+      role: user.role,
+      username: user.username,
+      lastLoginDate: lastLoginDateFormatted,
+      email: user.email,
+      ip: ip,
+      userId: user._id // renvoie userId explicitement
+    });
   } catch (err) {
     res.status(500).json({ message: "Erreur serveur" });
   }
 });
+
 
 // Lire tous les utilisateurs (READ)
 router.get("/all", async (req, res) => {
@@ -179,15 +179,22 @@ router.get("/:id", async (req, res) => {
 // Mettre à jour un utilisateur par ID (UPDATE)
 router.put("/:id", async (req, res) => {
   const { id } = req.params;
-  const { email, password } = req.body;
+  const { username, email, password } = req.body;
 
   try {
-    let updatedFields = { email };
+    let updatedFields = { username, email };
 
-    if (password) {
-      const hashedPassword = await bcrypt.hash(password, 10);
-      updatedFields.password = hashedPassword;
-    }
+if (password) {
+  const hashedPassword = await bcrypt.hash(password, 10);
+  updatedFields.password = hashedPassword;
+
+  // Mettre à jour aussi dans User
+if (password) {
+  const hashedPassword = await bcrypt.hash(password, 10);
+  updatedFields.password = hashedPassword;
+}
+
+}
 
     const updatedUser = await User.findByIdAndUpdate(
       id, 
