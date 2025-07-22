@@ -30,7 +30,6 @@ app.use("/users", users);
 app.use("/api/formations", formations); // you need to define 'formations'
 app.use("/api/planning", planningRoutes);
 app.use("/api/formateurs", formateurRoutes);
-app.use("/formateurs", formateursRoutes);
 
 // Server start
 const port = process.env.PORT || 3001;

@@ -28,7 +28,9 @@ const CombinedLayoutAdmin = ({ isSidebarOpen, toggleSidebar }) => {
       <nav className="navbar">
         <div className="navbar-left">
           <i className="bi bi-list toggle-btn" onClick={toggleSidebar}></i>
-          <span>CPFMI</span>
+          <span onClick={() => window.location.href = "/homeAdmin"} style={{ cursor: "pointer" }}>
+            CPFMI
+          </span>
         </div>
 
         <div className="navbar-right">

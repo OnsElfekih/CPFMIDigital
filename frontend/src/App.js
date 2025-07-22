@@ -11,7 +11,6 @@ import FormateurDetails from "./components/FormateurDetails";
 import FormNMotDePasse from "./components/formnmotdepasse";
 import Certifications from "./components/certifications";
 import UpdateAdmin from "./components/updateAdmin";
-import UpdateFormateur from "./components/updatedFormateur";
 
 function App() {
   return (
@@ -22,15 +21,12 @@ function App() {
         <Route path="/homeEntreprise" element={<HomeEntreprise/>} />
         <Route path="/homeFormateur" element={<HomeFormateur/>} />
         <Route path="/updateAdmin" element={<UpdateAdmin/>}/>
-        <Route path="/updateFormateur" element={<UpdateFormateur/>}/>
         <Route path="/certifications" element={<Certifications/>}/>
         <Route path="/formnmotdepasse" element={<FormNMotDePasse/>} />
         <Route path="/planning" element={<ViewPlanning />} />
         <Route path="/planningcal" element={<PlanningCalendar />} />
         <Route path="/evaluations" element={<EvaluationFormateur/>} />
         <Route path="/formateur/:id" element={<FormateurDetails />} />
-        
-
 
         {/* Ajoute d'autres routes ici si nécessaire */}
       </Routes>
