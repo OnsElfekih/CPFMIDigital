@@ -133,7 +133,7 @@ if (isSame) {
           </div>
 
           <div>
-            <label>Mot de passe :</label>
+            <label>nouveau mot de passe :</label>
             <div style={{ position: "relative" }}>
               <input
                 type={showPassword ? "text" : "password"}
@@ -158,7 +158,7 @@ if (isSame) {
           </div>
 
           <div>
-            <label>Confirmer mot de passe :</label>
+            <label>Confirmer le mot de passe :</label>
             <div style={{ position: "relative" }}>
               <input
                 type={showConfirmPassword ? "text" : "password"}
@@ -183,7 +183,7 @@ if (isSame) {
           </div>
 
           <button type="submit" className="update-admin-button">
-            Mettre à jour
+            Modifier
           </button>
         </form>
       </div>
