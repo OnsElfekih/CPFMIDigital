@@ -85,6 +85,20 @@ router.post("/resetpassword", async (req, res) => {
 });
 
 
+router.post("/check-password", async (req, res) => {
+  const { userId, newPassword } = req.body;
+
+  try {
+    const user = await User.findById(userId);
+    if (!user) return res.status(404).json({ error: "Utilisateur non trouvé" });
+
+    const isSame = await bcrypt.compare(newPassword, user.password);
+    return res.json({ isSame });
+  } catch (error) {
+    return res.status(500).json({ error: "Erreur serveur" });
+  }
+});
+
 
 // 📌 LOGIN
 router.post("/login", async (req, res) => {

@@ -66,17 +66,19 @@ const Certifications = () => {
         </button>
 
         <div className="search-container">
-          <input
-            type="text"
+          <select
             name="type"
-            placeholder="Recherche par type"
             value={filters.type}
             onChange={handleFilterChange}
-          />
+          >
+            <option value="">Tous</option>
+            <option value="entreprise">Entreprise</option>
+            <option value="participant">Participant</option>
+          </select>
           <input
             type="text"
             name="nom"
-            placeholder="Recherche par nom"
+            placeholder="Nom du certification"
             value={filters.nom}
             onChange={handleFilterChange}
           />

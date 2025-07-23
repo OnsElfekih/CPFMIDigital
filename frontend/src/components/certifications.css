@@ -1,5 +1,5 @@
 .button-ajouter {
-  background-color: #007bff;
+  background-color: #F27405;
   color: white;
   padding: 12px 24px;
   border-radius: 6px;
@@ -7,13 +7,13 @@
   cursor: pointer;
   margin: 20px auto;
   display: block;
-  font-weight: 600;
+  font-weight: normal;
   font-size: 16px;
   transition: background-color 0.3s ease;
 }
 
 .button-ajouter:hover {
-  background-color: #0056b3;
+  background-color: #F27405;
 }
 
 .table-certifications {
@@ -72,7 +72,15 @@
   box-sizing: border-box;
   transition: border-color 0.3s ease;
 }
-
+.search-container select {
+  padding: 10px 14px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  width: 200px;
+  box-sizing: border-box;
+  transition: border-color 0.3s ease;
+}
 .search-container input:focus {
   outline: none;
   border-color: #007bff;
