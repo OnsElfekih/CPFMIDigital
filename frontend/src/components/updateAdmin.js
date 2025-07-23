@@ -107,7 +107,7 @@ if (isSame) {
           width: "100%"
         }}
       >
-        <h2>Mise à jour de l'admin</h2>
+        <h2>Modifier votre profil</h2>
         {success && <p style={{ color: "green" }}>{success}</p>}
         {error && <p style={{ color: "red" }}>{error}</p>}
 
