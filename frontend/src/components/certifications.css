@@ -1,0 +1,92 @@
+.button-ajouter {
+  background-color: #F27405;
+  color: white;
+  padding: 12px 24px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  margin: 20px auto;
+  display: block;
+  font-weight: 600;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.button-ajouter:hover {
+  background-color: #0367A6;
+}
+
+.table-certifications {
+  width: 90%;
+  max-width: 1200px;
+  border-collapse: separate;
+  border-spacing: 0 12px;
+  box-shadow: 0 2px 10px rgba(3, 101, 140, 0.2);
+  border-radius: 10px;
+  overflow: hidden;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #fff;
+}
+
+.table-certifications thead tr {
+  background-color: #03658C;
+  color: white;
+  text-align: left;
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.table-certifications th,
+.table-certifications td {
+  padding: 14px 20px;
+  vertical-align: middle;
+}
+
+.table-certifications tbody tr {
+  background-color: #f0f8ff;
+  border-radius: 6px;
+  box-shadow: 0 1px 4px rgba(3, 101, 140, 0.1);
+  transition: background-color 0.2s ease;
+}
+
+.table-certifications tbody tr:hover {
+  background-color: #e1f0fb;
+}
+
+.search-container {
+  margin: 20px auto;
+  width: 90%;
+  max-width: 900px;
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.search-container input,
+.search-container select {
+  padding: 10px 14px;
+  border-radius: 6px;
+  border: 1px solid #03658C;
+  font-size: 14px;
+  width: 200px;
+  box-sizing: border-box;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.search-container input:focus,
+.search-container select:focus {
+  outline: none;
+  border-color: #0367A6;
+  box-shadow: 0 0 5px rgba(3, 103, 166, 0.4);
+}
+
+.title {
+  text-align: center;
+  font-size: 26px;
+  margin-top: 40px;
+  margin-bottom: 20px;
+  font-weight: 700;
+  color: #03658C;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}

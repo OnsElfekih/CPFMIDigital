@@ -1,0 +1,37 @@
+.home-formateur-container {
+  background-color: #f8f9fa;
+  border-radius: 10px;
+  padding: 30px;
+  max-width: 600px;
+  margin: 50px auto;
+  box-shadow: 0 4px 12px rgba(3, 101, 140, 0.2);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  text-align: center;
+}
+
+.home-formateur-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: #03658C;
+  margin-bottom: 20px;
+}
+
+.home-formateur-subtitle {
+  font-size: 18px;
+  font-weight: 600;
+  color: #0367A6;
+  margin-bottom: 10px;
+}
+
+.home-formateur-text {
+  font-size: 16px;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+.home-formateur-highlight {
+  color: #F27405;
+  font-weight: 600;
+}
+
+

@@ -32,6 +32,7 @@ const handleSubmit = async (e) => {
   e.preventDefault();
   setLoading(true);
   setError(null);
+
   try {
     const response = await fetch("http://localhost:3001/users/login", {
       method: "POST",
@@ -41,13 +42,14 @@ const handleSubmit = async (e) => {
 
     const data = await response.json();
 
+    if (!response.ok) throw new Error(data.message || "Échec de la connexion");
+
+    localStorage.setItem("userId", data.userId);
     localStorage.setItem("username", data.username);
     localStorage.setItem("role", data.role);
     localStorage.setItem("lastLoginDate", data.lastLoginDate);
     localStorage.setItem("email", data.email);
     localStorage.setItem("ip", data.ip);
-
-    if (!response.ok) throw new Error(data.message || "Échec de la connexion");
 
     Cookies.set("token", data.token, { expires: 1, secure: true, sameSite: "Strict" });
     Cookies.set("role", data.role, { expires: 1, secure: true, sameSite: "Strict" });
@@ -62,8 +64,8 @@ const handleSubmit = async (e) => {
       case "formateur":
         navigate("/homeformateur");
         break;
-          default:
-      break;
+      default:
+        break;
     }
   } catch (err) {
     setError(err.message);
@@ -71,8 +73,6 @@ const handleSubmit = async (e) => {
     setLoading(false);
   }
 };
-
-
 
   return (
 <Box

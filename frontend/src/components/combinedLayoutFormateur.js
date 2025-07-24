@@ -39,15 +39,18 @@ const CombinedLayoutFormateur = ({ isSidebarOpen, toggleSidebar }) => {
             <i className="bi bi-person-circle" onClick={toggleProfileMenu}></i>
                 {showProfileMenu && (
                 <div className="profile-menu">
-                    <p>
+                  <p
+                    style={{ cursor: "pointer" }}
+                    onClick={() => (window.location.href = "/updateFormateur")}
+                  >
                     <i className="bi bi-person"></i> Profil
-                    </p>
-                    <p
+                  </p>
+                  <p
                     style={{ cursor: "pointer" }}
                     onClick={() => (window.location.href = "/")}
-                    >
+                  >
                     <i className="bi bi-box-arrow-right"></i> Logout
-                    </p>
+                  </p>
                 </div>
                 )}
           </div>
