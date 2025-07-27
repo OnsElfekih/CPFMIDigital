@@ -1,8 +1,16 @@
 import React, { useEffect, useState } from "react";
+import jsPDF from "jspdf";
+import "jspdf-autotable";
+
+import { PictureAsPdf, GridOn ,SomePdfIcon} from '@mui/icons-material';
+
+import autoTable from "jspdf-autotable";
 import axios from "axios";
 import FormationForm from './FormationForm';
+import * as XLSX from "xlsx";
+import { saveAs } from "file-saver";
 import { 
-  Table, TableBody, TableCell, TableContainer, 
+  Table, TableBody, TableCell, TableContainer, Grid,
   TableHead, TableRow, Paper, Button, 
   IconButton, Typography, Box, 
   CircularProgress, Alert, Snackbar,
@@ -17,7 +25,12 @@ import {
 
 import CombinedLayoutAdmin from "./CombinedLayoutAdmin";
 
+
+
 const FormationTable = () => {
+
+  const [selectedFormation, setSelectedFormation] = useState(null);
+
   const [openForm, setOpenForm] = useState(false);
   const [formations, setFormations] = useState([]);
   const [entreprises, setEntreprises] = useState([]);
@@ -31,7 +44,57 @@ const FormationTable = () => {
     severity: 'success'
   });
 
+
+  const exportToExcel = () => {
+  const worksheetData = formations.map(f => ({
+    Titre: f.titre,
+    Lieu: f.lieu,
+    Theme: f.theme,
+    'Durée (jours)': f.duree,
+    'Date Début': new Date(f.dateDebut).toLocaleDateString('fr-FR'),
+    'Date Fin': new Date(f.dateFin).toLocaleDateString('fr-FR'),
+    Entreprise: f.entreprise,
+    'ID Session': f.idSession,
+    Participants: f.participants
+  }));
+
+  const worksheet = XLSX.utils.json_to_sheet(worksheetData);
+  const workbook = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(workbook, worksheet, "Formations");
+
+  const excelBuffer = XLSX.write(workbook, { bookType: "xlsx", type: "array" });
+  const data = new Blob([excelBuffer], { type: "application/octet-stream" });
+  saveAs(data, "formations.xlsx");
+};
+
+
   
+
+
+
+const exportToPDF = () => {
+  const doc = new jsPDF();
+  doc.text("Liste des formations", 14, 10);
+
+  const tableData = formations.map(f => [
+    f.titre,
+    f.lieu,
+    f.theme,
+    f.duree,
+    new Date(f.dateDebut).toLocaleDateString('fr-FR'),
+    new Date(f.dateFin).toLocaleDateString('fr-FR'),
+    f.entreprise
+  ]);
+
+  autoTable(doc, {
+    head: [["Titre", "Lieu", "Thème", "Durée", "Début", "Fin", "Entreprise"]],
+    body: tableData
+  });
+
+  doc.save("formations.pdf");
+};
+
+
 
   // Charger formations
   const fetchFormations = async () => {
@@ -176,83 +239,120 @@ const toggleSidebar = () => {
         </Box>
 
         {/* Affichage du tableau */}
-        {loading ? (
-          <Box sx={{ display: 'flex', justifyContent: 'center', mt: 4 }}>
-            <CircularProgress />
+       {/* Affichage des formations sous forme de cartes */}
+       <Box sx={{ mb: 2, display: 'flex', gap: 2 }}>
+  <Button
+  variant="contained"
+  color="primary"
+  startIcon={<GridOn />}
+  sx={{ textTransform: "none", fontWeight: "bold", borderRadius: 2 }}
+  onClick={exportToExcel}
+>
+  Exporter en Excel
+</Button>
+
+<Button
+  variant="outlined"
+  color="secondary"
+  startIcon={<PictureAsPdf />}
+  sx={{ textTransform: "none", fontWeight: "bold", borderRadius: 2 }}
+  onClick={exportToPDF}
+>
+  Exporter en PDF
+</Button>
+</Box>
+{loading ? (
+ <Grid container spacing={2}>
+  {formations.map((formation) => (
+    <Grid item xs={10} sm={6} md={4} key={formation._id}>
+      
+       <Paper 
+    elevation={3}
+  sx={{
+    p: 2,
+    height: '100%',
+    transform: 'scale(0.95)', // ✅ réduit taille globale à 95%
+    transformOrigin: 'top center',
+    cursor: 'pointer',
+    '&:hover': {
+      backgroundColor: '#f5f5f5',
+      transform: 'scale(0.97)', // un petit zoom au hover
+    }
+  }}
+        onClick={() => setSelectedFormation(formation)}
+      >
+        <Typography variant="h6" color="primary">{formation.titre}</Typography>
+        <Typography variant="body2">📍 {formation.lieu}</Typography>
+        <Typography variant="body2">🗓️ {new Date(formation.dateDebut).toLocaleDateString('fr-FR')}</Typography>
+        <Typography variant="body2">🏢 {formation.entreprise || '-'}</Typography>
+        <Box sx={{ mt: 1, display: 'flex', justifyContent: 'flex-end' }}>
+          <IconButton color="primary" onClick={(e) => {
+            e.stopPropagation();
+            setEditingFormation(formation);
+          }}>
+            <EditIcon />
+          </IconButton>
+          <IconButton color="error" onClick={(e) => {
+            e.stopPropagation();
+            setDeleteConfirm(formation._id);
+          }}>
+            <DeleteIcon />
+          </IconButton>
+        </Box>
+      </Paper>
+      
+
+    </Grid>
+    
+  ))}
+</Grid>
+
+) : error ? (
+  <Alert severity="error" sx={{ mb: 3 }}>
+    {error}
+  </Alert>
+) : (
+  <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 2 }}>
+    {formations.length === 0 ? (
+      <Typography variant="body1" color="textSecondary">
+        Aucune formation disponible
+      </Typography>
+    ) : (
+      formations.map((formation) => (
+        <Paper 
+          key={formation._id} 
+          elevation={3}
+          sx={{ 
+            p: 2, width: 300, cursor: 'pointer',
+            '&:hover': { backgroundColor: '#f5f5f5' }
+          }}
+          onClick={() => setSelectedFormation(formation)}
+        >
+          <Typography variant="h6" color="primary">{formation.titre}</Typography>
+          <Typography variant="body2">📍 {formation.lieu}</Typography>
+          <Typography variant="body2">🗓️ {new Date(formation.dateDebut).toLocaleDateString('fr-FR')}</Typography>
+          <Typography variant="body2">🏢 {formation.entreprise || '-'}</Typography>
+          <Box sx={{ mt: 1, display: 'flex', justifyContent: 'flex-end' }}>
+            <IconButton color="primary" onClick={(e) => {
+              e.stopPropagation();
+              setEditingFormation(formation);
+            }}>
+              <EditIcon />
+            </IconButton>
+            <IconButton color="error" onClick={(e) => {
+              e.stopPropagation();
+              setDeleteConfirm(formation._id);
+            }}>
+              <DeleteIcon />
+            </IconButton>
           </Box>
-        ) : error ? (
-          <Alert severity="error" sx={{ mb: 3 }}>
-            {error}
-          </Alert>
-        ) : (
-          <TableContainer component={Paper} elevation={3}>
-            <Table sx={{ minWidth: 650 }} aria-label="table des formations">
-              <TableHead sx={{ bgcolor: 'primary.main' }}>
-                <TableRow>
-                  <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>Titre</TableCell>
-                  <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>Lieu</TableCell>
-                  <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>Thème</TableCell>
-                  <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>Durée</TableCell>
-                  <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>Date de début</TableCell>
-                  <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>ID Session</TableCell>
-                  <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>Entreprise</TableCell>
-                  <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>Participants</TableCell>
-                  <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>Actions</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {formations.length === 0 ? (
-                  <TableRow>
-                    <TableCell colSpan={9} align="center" sx={{ py: 4 }}>
-                      <Typography variant="body1" color="textSecondary">
-                        Aucune formation disponible
-                      </Typography>
-                    </TableCell>
-                  </TableRow>
-                ) : (
-                  formations.map((formation) => (
-                    <TableRow
-                      key={formation._id}
-                      sx={{
-                        '&:last-child td, &:last-child th': { border: 0 },
-                        '&:hover': {
-                          backgroundColor: '#e3f2fd',
-                          cursor: 'pointer',
-                        },
-                      }}
-                    >
-                      <TableCell>{formation.titre}</TableCell>
-                      <TableCell>{formation.lieu}</TableCell>
-                      <TableCell>{formation.theme}</TableCell>
-                      <TableCell>{formation.duree} jours</TableCell>
-                      <TableCell>
-                        {new Date(formation.dateDebut).toLocaleDateString('fr-FR')}
-                      </TableCell>
-                      <TableCell>{formation.idSession}</TableCell>
-                      <TableCell>{formation.entreprise || '-'}</TableCell>
-                      <TableCell>{formation.participants}</TableCell>
-                      <TableCell>
-                        <IconButton
-                          color="primary"
-                          onClick={() => setEditingFormation(formation)}
-                          sx={{ mr: 1 }}
-                        >
-                          <EditIcon />
-                        </IconButton>
-                        <IconButton
-                          color="error"
-                          onClick={() => setDeleteConfirm(formation._id)}
-                        >
-                          <DeleteIcon />
-                        </IconButton>
-                      </TableCell>
-                    </TableRow>
-                  ))
-                )}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        )}
+        </Paper>
+      ))
+    )}
+  </Box>
+  
+)}
+
 
         {/* Modale de création */}
         <FormationForm
@@ -290,6 +390,33 @@ const toggleSidebar = () => {
             </Button>
           </DialogActions>
         </Dialog>
+
+        {/* Détails formation */}
+<Dialog
+  open={Boolean(selectedFormation)}
+  onClose={() => setSelectedFormation(null)}
+>
+  <DialogTitle>Détails de la formation</DialogTitle>
+  <DialogContent dividers>
+    {selectedFormation && (
+      <Box>
+        <Typography><strong>Titre:</strong> {selectedFormation.titre}</Typography>
+        <Typography><strong>Lieu:</strong> {selectedFormation.lieu}</Typography>
+        <Typography><strong>Thème:</strong> {selectedFormation.theme}</Typography>
+        <Typography><strong>Durée:</strong> {selectedFormation.duree} jours</Typography>
+        <Typography><strong>Date début:</strong> {new Date(selectedFormation.dateDebut).toLocaleDateString('fr-FR')}</Typography>
+        <Typography><strong>Date fin:</strong> {new Date(selectedFormation.dateFin).toLocaleDateString('fr-FR')}</Typography>
+        <Typography><strong>ID Session:</strong> {selectedFormation.idSession}</Typography>
+        <Typography><strong>Entreprise:</strong> {selectedFormation.entreprise}</Typography>
+        <Typography><strong>Participants:</strong> {selectedFormation.participants}</Typography>
+      </Box>
+    )}
+  </DialogContent>
+  <DialogActions>
+    <Button onClick={() => setSelectedFormation(null)}>Fermer</Button>
+  </DialogActions>
+</Dialog>
+
 
         {/* Snackbar */}
         <Snackbar

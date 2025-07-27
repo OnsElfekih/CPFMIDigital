@@ -28,7 +28,10 @@ entreprise: {
     type: String,
     enum: ['en attente', 'validée', 'annulée'],
     default: 'en attente'
-  }
+  },
+    contenuPedagogique: { type: String, default: "" },
+  objectifs: [String],
+  competences: [String]
 }, { timestamps: true });
 
 module.exports = mongoose.model('Formation', formationSchema);
