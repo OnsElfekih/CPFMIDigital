@@ -6,6 +6,7 @@ import Login from "./components/login";
 import HomeAdmin from "./components/homeAdmin";
 import HomeEntreprise from "./components/homeEntreprise";
 import HomeFormateur from "./components/homeFormateur";
+import UpdateCertif from "./components/updateCertification"
 
 // Formations et planning
 import FormationTable from "./components/FormationTable";
@@ -22,7 +23,7 @@ import UpdateAdmin from "./components/updateAdmin";
 import EvaluationFormateur from "./components/EvaluationFormateur";
 import FormateurDetails from "./components/FormateurDetails";
 import Certifications from "./components/certifications";
-import UpdateAdmin from "./components/updateAdmin";
+import CertifPrintPage from "./components/CertifPrintPage";
 
 function App() {
   return (
@@ -35,13 +36,14 @@ function App() {
         <Route path="/updateAdmin" element={<UpdateAdmin/>}/>
         <Route path="/certifications" element={<Certifications/>}/>
         <Route path="/formnmotdepasse" element={<FormNMotDePasse/>} />
+        <Route path="/updatecertif/:id" element={<UpdateCertif/>}/>
+        <Route path="/certifprint/:id" element ={<CertifPrintPage/>}/>
         <Route path="/planning" element={<ViewPlanning />} />
         <Route path="/planningcal" element={<PlanningCalendar />} />
         <Route path="/validation" element={<ValidFormation />} />
         <Route path="/formnmotdepasse" element={<FormNMotDePasse />} />
         <Route path="/calendarcard" element={<CalendarCard />} />
         <Route path="/navsidad" element={<CombinedLayoutAdmin />} />
-        <Route path="/updateadmin" element={<UpdateAdmin />} />
         <Route path="/evaluations" element={<EvaluationFormateur />} />
         <Route path="/formateur/:id" element={<FormateurDetails />} />
 
