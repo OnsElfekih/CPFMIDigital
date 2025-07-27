@@ -3,7 +3,11 @@
   border-radius: 10px;
   padding: 30px;
   max-width: 600px;
-  margin: 50px auto;
+  margin: auto; /* centre horizontalement */
+  position: absolute;
+  top: 40%;
+  left: calc(40% + 60px); /* ajuste selon sidebar */
+  transform: translate(-50%, -50%);
   box-shadow: 0 4px 12px rgba(3, 101, 140, 0.2);
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   text-align: center;

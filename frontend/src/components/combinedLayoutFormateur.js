@@ -41,7 +41,7 @@ const CombinedLayoutFormateur = ({ isSidebarOpen, toggleSidebar }) => {
                 <div className="profile-menu">
                   <p
                     style={{ cursor: "pointer" }}
-                    onClick={() => (window.location.href = "/updateFormateur")}
+                    onClick={() => (window.location.href = "/")}
                   >
                     <i className="bi bi-person"></i> Profil
                   </p>
