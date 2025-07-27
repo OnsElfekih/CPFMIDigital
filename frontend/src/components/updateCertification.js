@@ -88,14 +88,17 @@ const handleSubmit = async (e) => {
   return (
     <>
       <CombinedLayoutAdmin isSidebarOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
-      <div
-        className="form-container"
-        style={{
-          marginLeft: isSidebarOpen ? "210px" : "90px",
-          transition: "margin-left 0.3s ease",
-          width: "100%"
-        }}
-      >
+<div
+  className="form-container"
+  style={{
+    marginLeft: isSidebarOpen ? "210px" : "90px",
+    transition: "margin-left 0.3s ease",
+    width: "100%",
+      justifyContent: "center",
+  alignItems: "center",
+  }}
+>
+
         <h2>Editer Certification</h2>
 
         {success && <p style={{ color: "#F27405" }}>{success}</p>}
@@ -140,6 +143,7 @@ const handleSubmit = async (e) => {
             value={certif.duree}
             onChange={handleChange}
             placeholder="Durée"
+            style={{ width: "500px" }}  // largeur fixe
           />
 
           <label>Date début actuelle:</label>

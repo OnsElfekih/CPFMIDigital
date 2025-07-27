@@ -6,7 +6,7 @@
   border-radius: 10px;
   background-color: #f9f9f9;
   box-shadow: 0 0 10px rgba(3, 101, 140, 0.2);
-  margin: 140px auto; /* avant c'était 40px ou 20px, mets 80px pour plus d’espace */
+  margin: 160px auto; /* avant c'était 40px ou 20px, mets 80px pour plus d’espace */
 }
 
 .form-container h2 {
