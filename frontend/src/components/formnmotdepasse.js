@@ -8,6 +8,8 @@ const FormNMotDePasse = () => {
   const [success, setSuccess] = useState(null);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const [newPassword, setNewPassword] = useState(null);
+
 
   useEffect(() => {
     document.title = "Regénérer mot de passe";
@@ -19,6 +21,7 @@ const FormNMotDePasse = () => {
     setLoading(true);
     setError(null);
     setSuccess(null);
+    setNewPassword(null);
     try {
       const response = await fetch("http://localhost:3001/users/resetpassword", {
         method: "POST",
@@ -30,12 +33,13 @@ const FormNMotDePasse = () => {
 
       if (!response.ok) throw new Error(data.message || "Erreur lors de la réinitialisation");
 
-      setSuccess("Nouveau email envoyé avec succès");
+      setSuccess("Récupération faite avec succès");
+      setNewPassword(data.newPassword);
 
       // redirige après 2 secondes
       setTimeout(() => {
         navigate("/");
-      }, 2000);
+      }, 4500);
 
     } catch (err) {
       setError(err.message);
@@ -78,7 +82,13 @@ const FormNMotDePasse = () => {
             margin="normal"
             required
           />
-
+          {newPassword && (
+            <Box mt={2} p={2} sx={{ backgroundColor: "#f0f0f0", borderRadius: 1 }}>
+              <Typography variant="body1" align="center">
+                Votre nouveau mot de passe est : <strong style={{ color: "#F27405" }}>{newPassword}</strong>
+              </Typography>
+            </Box>
+          )}
           <Button
             type="submit"
             variant="contained"

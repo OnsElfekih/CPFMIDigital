@@ -78,7 +78,11 @@ router.post("/resetpassword", async (req, res) => {
       text: `Votre nouveau mot de passe est : ${newPassword}`,
     });
 
-    return res.status(200).json({ message: "Le nouveau mot de passe est envoyé par email" });
+    return res.status(200).json({ 
+    message: "Le nouveau mot de passe est envoyé par email",
+    newPassword  // ajoute cette ligne
+    });
+
   } catch (error) {
     return res.status(500).json({ message: "Erreur serveur", error: error.message });
   }
