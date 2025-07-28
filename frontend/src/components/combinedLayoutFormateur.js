@@ -34,7 +34,6 @@ const CombinedLayoutFormateur = ({ isSidebarOpen, toggleSidebar }) => {
         </div>
 
         <div className="navbar-right">
-          <i className="bi bi-bell"></i>
           <div className="profile-container" ref={menuRef}>
             <i className="bi bi-person-circle" onClick={toggleProfileMenu}></i>
                 {showProfileMenu && (

@@ -16,37 +16,44 @@ const FormNMotDePasse = () => {
     document.body.style.backgroundColor = "#0367A6";
   }, []);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    setError(null);
-    setSuccess(null);
-    setNewPassword(null);
-    try {
-      const response = await fetch("http://localhost:3001/users/resetpassword", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
+// FormNMotDePasse.js
+
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  setLoading(true);
+  setError(null);
+  setSuccess(null);
+  setNewPassword(null);
+  try {
+    const response = await fetch("http://localhost:3001/users/resetpassword", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email }),
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) throw new Error(data.message || "Erreur lors de la réinitialisation");
+
+    setSuccess("Récupération faite avec succès");
+    setNewPassword(data.newPassword);
+
+    setTimeout(() => {
+      navigate("/", {
+        state: {
+          email: email,
+          newPassword: data.newPassword
+        }
       });
+    }, 2000);
 
-      const data = await response.json();
+  } catch (err) {
+    setError(err.message);
+  } finally {
+    setLoading(false);
+  }
+};
 
-      if (!response.ok) throw new Error(data.message || "Erreur lors de la réinitialisation");
-
-      setSuccess("Récupération faite avec succès");
-      setNewPassword(data.newPassword);
-
-      // redirige après 2 secondes
-      setTimeout(() => {
-        navigate("/");
-      }, 4500);
-
-    } catch (err) {
-      setError(err.message);
-    } finally {
-      setLoading(false);
-    }
-  };
 
   return (
     <Box

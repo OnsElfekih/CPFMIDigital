@@ -6,9 +6,17 @@ import { Visibility, VisibilityOff } from "@mui/icons-material";
 import InputAdornment from "@mui/material/InputAdornment";
 import IconButton from "@mui/material/IconButton";
 import { Link } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 const Login = () => {
-  const [formData, setFormData] = useState({ email: "", password: "", role: "" });
+   const location = useLocation();
+  const state = location.state || {};
+
+  const [formData, setFormData] = useState({
+    email: state.email || "",
+    password: state.newPassword || "",
+    role: ""
+  });
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
