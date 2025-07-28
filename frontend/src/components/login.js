@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import Cookies from "js-cookie";
 import {
   TextField,
@@ -8,8 +8,6 @@ import {
   Typography,
   CircularProgress,
   MenuItem,
-  Checkbox,
-  FormControlLabel,
   InputAdornment,
   IconButton,
 } from "@mui/material";
@@ -18,21 +16,26 @@ import { Link } from "react-router-dom";
 
 const Login = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+
   const [formData, setFormData] = useState({ email: "", password: "", role: "" });
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [rememberMe, setRememberMe] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-
-  // Stockés dans localStorage
-  const savedEmail = localStorage.getItem("savedEmail");
-  const savedPassword = localStorage.getItem("savedPassword");
 
   useEffect(() => {
     document.title = "Connexion";
     document.body.style.backgroundColor = "#0367A6";
-    // Ne pas pré-remplir formulaire, tout est vide au chargement
-  }, []);
+
+    // Si email et newPassword envoyés par navigation (ex : après reset), préremplir
+    if (location.state?.email && location.state?.newPassword) {
+      setFormData({
+        email: location.state.email,
+        password: location.state.newPassword,
+        role: "",
+      });
+    }
+  }, [location.state]);
 
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
@@ -40,25 +43,7 @@ const Login = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-
-    setFormData((prev) => {
-      if (name === "email") {
-        if (value === savedEmail && savedPassword) {
-          // Email tapé correspond à sauvegardé => affiche mot de passe
-          setRememberMe(true);
-          return { ...prev, email: value, password: savedPassword };
-        } else {
-          // Sinon vide mot de passe
-          setRememberMe(false);
-          return { ...prev, email: value, password: "" };
-        }
-      }
-      return { ...prev, [name]: value };
-    });
-  };
-
-  const handleRememberMeChange = (e) => {
-    setRememberMe(e.target.checked);
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = async (e) => {
@@ -77,16 +62,7 @@ const Login = () => {
 
       if (!response.ok) throw new Error(data.message || "Échec de la connexion");
 
-      // Sauvegarde ou suppression selon rememberMe
-      if (rememberMe) {
-        localStorage.setItem("savedEmail", formData.email);
-        localStorage.setItem("savedPassword", formData.password);
-      } else {
-        localStorage.removeItem("savedEmail");
-        localStorage.removeItem("savedPassword");
-      }
-
-      // Stockage des infos session
+      // Stockage des infos session (sans localStorage savedEmail/password)
       localStorage.setItem("userId", data.userId);
       localStorage.setItem("username", data.username);
       localStorage.setItem("role", data.role);
@@ -190,11 +166,6 @@ const Login = () => {
             <MenuItem value="entreprise">Entreprise</MenuItem>
             <MenuItem value="formateur">Formateur</MenuItem>
           </TextField>
-
-          <FormControlLabel
-            control={<Checkbox checked={rememberMe} onChange={handleRememberMeChange} />}
-            label="Enregistrer le mot de passe et l'adresse"
-          />
 
           <Button
             type="submit"

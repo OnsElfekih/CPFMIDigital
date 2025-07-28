@@ -35,17 +35,22 @@ const handleSubmit = async (e) => {
 
     if (!response.ok) throw new Error(data.message || "Erreur lors de la réinitialisation");
 
-    setSuccess("Récupération faite avec succès");
-    setNewPassword(data.newPassword);
+setSuccess("Récupération faite avec succès");
+setNewPassword(data.newPassword);
 
-    setTimeout(() => {
-      navigate("/", {
-        state: {
-          email: email,
-          newPassword: data.newPassword
-        }
-      });
-    }, 2000);
+// Sauvegarder dans localStorage pour Remember Me
+localStorage.setItem("savedEmail", email);
+localStorage.setItem("savedPassword", data.newPassword);
+
+setTimeout(() => {
+  navigate("/", {
+    state: {
+      email: email,
+      newPassword: data.newPassword
+    }
+  });
+}, 2000);
+
 
   } catch (err) {
     setError(err.message);
