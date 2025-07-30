@@ -62,9 +62,12 @@ const CombinedLayoutEntreprise = ({ isSidebarOpen, toggleSidebar }) => {
             <i className="bi bi-info-circle"></i>
             <span>Formations</span>
           </li>
-          <li>
+        <li
+          style={{ cursor: "pointer" }}
+          onClick={() => (window.location.href = "/listeformateur")}
+        >
             <i className="bi bi-person"></i>
-            <span>Formateurs</span>
+            <span>Formations</span>
           </li>
           <li>
             <i className="bi bi-award"></i>

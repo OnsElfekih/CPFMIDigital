@@ -25,5 +25,21 @@ router.get("/:id", async (req, res) => {
     res.status(500).json({ message: "Erreur serveur" });
   }
 });
+router.delete('/:id', async (req, res) => {
+  try {
+    const formateur = await Formateur.findByIdAndDelete(req.params.id);
+
+    if (!formateur) {
+      return res.status(404).json({ message: 'Formateur non trouvé' });
+    }
+
+    // Supprimer le compte user lié à ce formateur via email
+    await User.findOneAndDelete({ email: formateur.email });
+
+    res.json({ message: 'Formateur et utilisateur supprimés avec succès' });
+  } catch (err) {
+    res.status(500).json({ message: 'Erreur serveur', error: err.message });
+  }
+});
 
 module.exports = router;
