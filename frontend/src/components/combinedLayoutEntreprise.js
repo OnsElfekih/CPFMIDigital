@@ -55,7 +55,10 @@ const CombinedLayoutEntreprise = ({ isSidebarOpen, toggleSidebar }) => {
 
       <aside className={`sidebar ${isSidebarOpen ? "open" : ""}`}>
         <ul>
-          <li>
+        <li
+          style={{ cursor: "pointer" }}
+          onClick={() => (window.location.href = "/historiqueeval")}
+        >
             <i className="bi bi-info-circle"></i>
             <span>Formations</span>
           </li>

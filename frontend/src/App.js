@@ -24,6 +24,8 @@ import EvaluationFormateur from "./components/EvaluationFormateur";
 import FormateurDetails from "./components/FormateurDetails";
 import Certifications from "./components/certifications";
 import CertifPrintPage from "./components/CertifPrintPage";
+import EvaluationFormation from "./components/evaluationFormation";
+import MesEvaluations from "./components/historiqueEvaluationFormation";
 
 function App() {
   return (
@@ -38,6 +40,8 @@ function App() {
         <Route path="/formnmotdepasse" element={<FormNMotDePasse/>} />
         <Route path="/updatecertif/:id" element={<UpdateCertif/>}/>
         <Route path="/certifprint/:id" element ={<CertifPrintPage/>}/>
+        <Route path="/evalformation" element ={<EvaluationFormation/>}/>
+        <Route path="/historiqueeval" element ={<MesEvaluations/>}/>
         <Route path="/planning" element={<ViewPlanning />} />
         <Route path="/planningcal" element={<PlanningCalendar />} />
         <Route path="/validation" element={<ValidFormation />} />

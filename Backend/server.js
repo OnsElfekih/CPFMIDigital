@@ -5,6 +5,7 @@ const config = require("config"); // you missed this import
 
 const users = require("./routes/api/users");
 const certifications = require('./routes/api/certifications');
+const evalFormations=require("./routes/api/evaluationFormation");
 const formateurRoutes = require("./routes/api/formateurRoutes");
 const planningRoutes = require("./routes/api/planningRoutes");
 const evaluationRoutes = require("./routes/api/evaluationRoutes");
@@ -29,6 +30,7 @@ app.use(cors());
 // Routes
 app.use("/users", users);
 app.use('/certifications', certifications);
+app.use('/evalformation',evalFormations);
 app.use("/api/formations", formations); // you need to define 'formations'
 app.use("/api/planning", planningRoutes);
 app.use("/api/formateurs", formateurRoutes);

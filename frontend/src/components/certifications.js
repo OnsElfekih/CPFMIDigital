@@ -198,7 +198,6 @@ const handleDelete = async () => {
           <button onClick={() => navigate(`/certifprint/${certif._id}`)}>🖨️</button>
           <button onClick={() => navigate(`/updateCertif/${certif._id}`)}>✏️</button>
           <button onClick={() => openDeleteConfirm(certif._id)}>🗑️</button>
-
         </td>
       </tr>
     ))

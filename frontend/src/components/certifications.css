@@ -14,8 +14,8 @@
 
 
 .table-certifications {
-  width: 90%;
-  max-width: 1200px;
+  width: 150%;
+  max-width: 1800px;
   border-collapse: separate;
   border-spacing: 0 12px;
   box-shadow: 0 2px 10px rgba(3, 101, 140, 0.2);
@@ -23,6 +23,7 @@
   overflow: hidden;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background-color: #fff;
+  margin: 0 auto;
 }
 
 .table-certifications thead tr {
