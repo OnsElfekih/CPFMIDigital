@@ -28,6 +28,8 @@ import EvaluationFormation from "./components/evaluationFormation";
 import MesEvaluations from "./components/historiqueEvaluationFormation";
 import ListeFormateurs from "./components/listeFormateur";
 import ProfilFormateur from "./components/profilFormateur";
+import AddCertificationsEntreprise from "./components/addCertificationEntreprise";
+import AddCertificationsParticipant from "./components/addCertificationParticipant";
 
 
 function App() {
@@ -40,6 +42,8 @@ function App() {
         <Route path="/homeFormateur" element={<HomeFormateur/>} />
         <Route path="/updateAdmin" element={<UpdateAdmin/>}/>
         <Route path="/certifications" element={<Certifications/>}/>
+        <Route path="/addCertificationEntreprise" element={<AddCertificationsEntreprise/>}/>
+        <Route path="/addCertificationParticipant" element={<AddCertificationsParticipant/>}/>
         <Route path="/formnmotdepasse" element={<FormNMotDePasse/>} />
         <Route path="/updatecertif/:id" element={<UpdateCertif/>}/>
         <Route path="/certifprint/:id" element ={<CertifPrintPage/>}/>
