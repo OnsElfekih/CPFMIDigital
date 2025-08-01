@@ -30,6 +30,8 @@ import ListeFormateurs from "./components/listeFormateur";
 import ProfilFormateur from "./components/profilFormateur";
 import AddCertificationsEntreprise from "./components/addCertificationEntreprise";
 import AddCertificationsParticipant from "./components/addCertificationParticipant";
+import UpdateFormateur from "./components/updateFormateur";
+import UpdateEntreprise from "./components/updateEntreprise";
 
 
 function App() {
@@ -40,25 +42,27 @@ function App() {
         <Route path="/homeAdmin" element={<HomeAdmin/>} />
         <Route path="/homeEntreprise" element={<HomeEntreprise/>} />
         <Route path="/homeFormateur" element={<HomeFormateur/>} />
+        <Route path="/updateClient" element={<UpdateEntreprise/>}/>
         <Route path="/updateAdmin" element={<UpdateAdmin/>}/>
         <Route path="/certifications" element={<Certifications/>}/>
         <Route path="/addCertificationEntreprise" element={<AddCertificationsEntreprise/>}/>
         <Route path="/addCertificationParticipant" element={<AddCertificationsParticipant/>}/>
+        <Route path="/updateForm" element={<UpdateFormateur/>}/>
         <Route path="/formnmotdepasse" element={<FormNMotDePasse/>} />
         <Route path="/updatecertif/:id" element={<UpdateCertif/>}/>
         <Route path="/certifprint/:id" element ={<CertifPrintPage/>}/>
         <Route path="/evalformation" element ={<EvaluationFormation/>}/>
         <Route path="/historiqueeval" element ={<MesEvaluations/>}/>
         <Route path="/listeformateur" element ={<ListeFormateurs/>}/>
+        <Route path="/navsidad" element={<CombinedLayoutAdmin />} />
+        <Route path="/evaluations" element={<EvaluationFormateur />} />
+        <Route path="/formateur/:id" element={<FormateurDetails />} />
         <Route path="/profilformateur/:id" element={<ProfilFormateur/>}/>
         <Route path="/planning" element={<ViewPlanning />} />
         <Route path="/planningcal" element={<PlanningCalendar />} />
         <Route path="/validation" element={<ValidFormation />} />
         <Route path="/formnmotdepasse" element={<FormNMotDePasse />} />
         <Route path="/calendarcard" element={<CalendarCard />} />
-        <Route path="/navsidad" element={<CombinedLayoutAdmin />} />
-        <Route path="/evaluations" element={<EvaluationFormateur />} />
-        <Route path="/formateur/:id" element={<FormateurDetails />} />
 
         {/* Ajoute d'autres routes ici si nécessaire */}
       </Routes>

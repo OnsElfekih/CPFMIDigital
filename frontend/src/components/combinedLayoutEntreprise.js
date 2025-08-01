@@ -38,7 +38,10 @@ const CombinedLayoutEntreprise = ({ isSidebarOpen, toggleSidebar }) => {
             <i className="bi bi-person-circle" onClick={toggleProfileMenu}></i>
                 {showProfileMenu && (
                 <div className="profile-menu">
-                    <p>
+                    <p
+                    style={{ cursor: "pointer" }}
+                    onClick={() => (window.location.href = "/updateClient")}
+                    >
                     <i className="bi bi-person"></i> Profil
                     </p>
                     <p
