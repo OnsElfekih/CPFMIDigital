@@ -1,0 +1,108 @@
+.honoraire-form {
+  max-width: 600px;
+  margin: 40px auto;
+  background: #ffffff;
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #333;
+}
+
+.honoraire-form h2 {
+  text-align: center;
+  margin-bottom: 25px;
+  color: #4A90E2;
+  font-weight: 600;
+  font-size: 24px;
+}
+
+.honoraire-form form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.honoraire-form label {
+  font-weight: 500;
+  margin-bottom: 5px;
+}
+
+.honoraire-form input,
+.honoraire-form select {
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 16px;
+  transition: border 0.2s;
+}
+
+.honoraire-form input:focus,
+.honoraire-form select:focus {
+  border-color: #4A90E2;
+  outline: none;
+}
+
+.honoraire-form button {
+  padding: 12px;
+  background: #4A90E2;
+  color: #fff;
+  border: none;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.honoraire-form button:hover {
+  background: #357ABD;
+}
+
+.honoraire-form {
+  padding: 30px;
+  background: #fff;
+  border-radius: 8px;
+  max-width: 600px;
+  margin: 40px auto;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.honoraire-form h2 {
+  margin-bottom: 20px;
+  font-size: 24px;
+}
+
+.honoraire-form form label {
+  display: block;
+  margin-top: 15px;
+  font-weight: bold;
+}
+
+.honoraire-form input,
+.honoraire-form select {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.form-buttons {
+  margin-top: 20px;
+  display: flex;
+  gap: 10px;
+}
+
+button {
+  background-color: #0054a6;
+  color: white;
+  padding: 10px 18px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.secondary-button {
+  background-color: #aaa;
+}

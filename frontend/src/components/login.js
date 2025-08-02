@@ -50,6 +50,7 @@ const handleSubmit = async (e) => {
     if (!response.ok) throw new Error(data.message || "Échec de la connexion");
 
     Cookies.set("token", data.token, { expires: 1, secure: true, sameSite: "Strict" });
+    localStorage.setItem("token", data.token);
     Cookies.set("role", data.role, { expires: 1, secure: true, sameSite: "Strict" });
 
     switch (data.role) {

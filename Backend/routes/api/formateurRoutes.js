@@ -1,8 +1,8 @@
 // routes/formateurRoutes.js
 const express = require('express');
 const router = express.Router();
-const { addFormateur } = require('../../controllers/formateurController');
-const Formateur = require('../../models/formateurModel'); // <-- ajoute ceci
+const { addFormateur, getCompetences } = require('../../controllers/formateurController');
+const Formateur = require('../../models/formateurModel');
 
 // Route POST pour ajouter un formateur
 router.post('/add', addFormateur);
@@ -17,6 +17,10 @@ router.get('/', async (req, res) => {
   }
 });
 
+// GET compétences distinctes
+router.get('/competences', getCompetences);
+
+// Route GET par ID
 router.get("/:id", async (req, res) => {
   try {
     const formateur = await Formateur.findById(req.params.id);

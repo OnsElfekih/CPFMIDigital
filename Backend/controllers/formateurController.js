@@ -11,4 +11,15 @@ const addFormateur = async (req, res) => {
   }
 };
 
-module.exports = { addFormateur };
+const getCompetences = async (req, res) => {
+  try {
+    // Ici on récupère les valeurs uniques du champ "specialite" (ou "domaine", selon ce que tu veux)
+    const competences = await Formateur.distinct('domaine'); // ou 'domaine' si tu préfères
+    res.json(competences.filter(c => c)); // filtre les valeurs nulles/vides
+  } catch (error) {
+    console.error("Erreur récupération des compétences :", error);
+    res.status(500).json({ message: 'Erreur serveur', error: error.message });
+  }
+};
+
+module.exports = { addFormateur, getCompetences };
