@@ -2,6 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const config = require("config");
 const cors = require("cors");
+const path = require("path");
 
 // Importation des routes
 const users = require("./routes/api/users");
@@ -13,9 +14,10 @@ const factureRoutes = require("./routes/api/factureRoutes");
 const emailRoutes = require("./routes/api/emailRoutes");
 const disponibiliteRoutes = require("./routes/api/disponibiliteRoutes");
 const publicDisponibiliteRoutes = require("./routes/api/publicDisponibiliteRoutes");
-
-
-const path = require("path");
+const honoraireRoutes = require("./routes/api/honoraireRoutes");
+const certifications = require("./routes/api/certifications");
+const evalFormations = require("./routes/api/evaluationFormation");
+// const formateursRoutes = require("./routes/api/formateur"); // Semble être un doublon, vérifie si utile
 
 const app = express();
 
@@ -25,7 +27,6 @@ const mongo_url = config.get("mongo_url");
 // Middlewares
 app.use(express.json());
 app.use(cors());
-
 app.use(express.static(path.join(__dirname, "public")));
 
 // Connexion à MongoDB
@@ -45,9 +46,10 @@ app.use("/api/factures", factureRoutes);
 app.use("/api/email", emailRoutes);
 app.use("/api/disponibilites", disponibiliteRoutes);
 app.use("/api/public-disponibilites", publicDisponibiliteRoutes);
-app.use('/api/honoraires', require('./routes/api/honoraireRoutes'));
-app.use('/pdf', express.static(path.join(__dirname, 'pdf')));
-
+app.use("/api/honoraires", honoraireRoutes);
+app.use("/api/certifications", certifications);
+app.use("/api/evalformation", evalFormations);
+app.use("/pdf", express.static(path.join(__dirname, "pdf")));
 
 // Démarrage du serveur
 const port = process.env.PORT || 3001;

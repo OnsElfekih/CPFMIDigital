@@ -1,0 +1,80 @@
+.update-admin-container {
+  max-width: 500px;
+  width: 90%;
+  padding: 25px;
+  border: 1px solid #03658C;
+  border-radius: 10px;
+  background-color: #f9f9f9;
+  box-shadow: 0 0 10px rgba(3, 101, 140, 0.2);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.update-admin-container h2 {
+  text-align: center;
+  margin-bottom: 25px;
+  color: #0367A6;
+  font-size: 22px;
+}
+
+.update-admin-form div {
+  margin-bottom: 20px;
+}
+
+.update-admin-form label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #03658C;
+}
+
+.update-admin-form input {
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #0367A6;
+  box-sizing: border-box;
+  font-size: 14px;
+}
+
+.update-admin-form input:focus {
+  border-color: #F27405;
+  outline: none;
+  box-shadow: 0 0 5px rgba(242, 116, 5, 0.3);
+}
+
+.update-admin-button {
+  background-color: #0367A6;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 100%;
+  font-size: 16px;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+}
+
+.update-admin-button:hover {
+  background-color: #03658C;
+}
+
+.update-admin-button:active {
+  background-color: #F27405;
+}
+
+.update-admin-container p {
+  text-align: center;
+  font-weight: 600;
+}
+
+.update-admin-container p[style*="color: green"] {
+  color: #F27405 !important;
+}
+
+.update-admin-container p[style*="color: red"] {
+  color: #F27405 !important;
+}

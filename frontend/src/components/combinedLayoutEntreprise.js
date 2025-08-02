@@ -34,12 +34,14 @@ const CombinedLayoutEntreprise = ({ isSidebarOpen, toggleSidebar }) => {
         </div>
 
         <div className="navbar-right">
-          <i className="bi bi-bell"></i>
           <div className="profile-container" ref={menuRef}>
             <i className="bi bi-person-circle" onClick={toggleProfileMenu}></i>
                 {showProfileMenu && (
                 <div className="profile-menu">
-                    <p>
+                    <p
+                    style={{ cursor: "pointer" }}
+                    onClick={() => (window.location.href = "/updateClient")}
+                    >
                     <i className="bi bi-person"></i> Profil
                     </p>
                     <p
@@ -56,8 +58,18 @@ const CombinedLayoutEntreprise = ({ isSidebarOpen, toggleSidebar }) => {
 
       <aside className={`sidebar ${isSidebarOpen ? "open" : ""}`}>
         <ul>
-          <li>
+        <li
+          style={{ cursor: "pointer" }}
+          onClick={() => (window.location.href = "/historiqueeval")}
+        >
             <i className="bi bi-info-circle"></i>
+            <span>Formations</span>
+          </li>
+        <li
+          style={{ cursor: "pointer" }}
+          onClick={() => (window.location.href = "/listeformateur")}
+        >
+            <i className="bi bi-person"></i>
             <span>Formations</span>
           </li>
           <li>

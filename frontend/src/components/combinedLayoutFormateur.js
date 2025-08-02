@@ -34,20 +34,22 @@ const CombinedLayoutFormateur = ({ isSidebarOpen, toggleSidebar }) => {
         </div>
 
         <div className="navbar-right">
-          <i className="bi bi-bell"></i>
           <div className="profile-container" ref={menuRef}>
             <i className="bi bi-person-circle" onClick={toggleProfileMenu}></i>
                 {showProfileMenu && (
                 <div className="profile-menu">
-                    <p>
-                    <i className="bi bi-person"></i> Profil
-                    </p>
-                    <p
+                  <p
+                    style={{ cursor: "pointer" }}
+                    onClick={() => (window.location.href = "/updateform")}
+                  >
+                    <i className="bi bi-person"></i>Profil
+                  </p>
+                  <p
                     style={{ cursor: "pointer" }}
                     onClick={() => (window.location.href = "/")}
-                    >
+                  >
                     <i className="bi bi-box-arrow-right"></i> Logout
-                    </p>
+                  </p>
                 </div>
                 )}
           </div>

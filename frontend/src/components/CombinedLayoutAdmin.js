@@ -27,16 +27,22 @@ const CombinedLayoutAdmin = ({ isSidebarOpen, toggleSidebar, children }) => {
       <nav className="navbar">
         <div className="navbar-left">
           <i className="bi bi-list toggle-btn" onClick={toggleSidebar}></i>
-          <span>CPFMI</span>
+          <span onClick={() => window.location.href = "/homeAdmin"} style={{ cursor: "pointer" }}>
+            CPFMI
+          </span>
         </div>
 
         <div className="navbar-right">
-          <i className="bi bi-bell"></i>
           <div className="profile-container" ref={menuRef}>
             <i className="bi bi-person-circle" onClick={toggleProfileMenu}></i>
             {showProfileMenu && (
               <div className="profile-menu">
-                <p><i className="bi bi-person"></i> Profil</p>
+                <p
+                  style={{ cursor: "pointer" }}
+                  onClick={() => (window.location.href = "/updateAdmin")}
+                >
+                  <i className="bi bi-person"></i> Profil
+                </p>
                 <p
                   style={{ cursor: "pointer" }}
                   onClick={() => (window.location.href = "/")}
@@ -51,12 +57,30 @@ const CombinedLayoutAdmin = ({ isSidebarOpen, toggleSidebar, children }) => {
 
       <aside className={`sidebar ${isSidebarOpen ? "open" : ""}`}>
         <ul>
-          <li><i className="bi bi-speedometer2"></i><span>Dashboard</span></li>
-          <li><i className="bi bi-buildings"></i><span>Clients</span></li>
-          <li><i className="bi bi-building-gear"></i><span>Entreprises</span></li>
-          <li><i className="bi bi-person"></i><span>Formateurs</span></li>
-          <li><i className="bi bi-info-circle"></i><span>Formations</span></li>
-          <li><i className="bi bi-award"></i><span>Certifications</span></li>
+          <li style={{ cursor: "pointer" }} onClick={() => (window.location.href = "/homeAdmin")}>
+            <i className="bi bi-speedometer2"></i>
+            <span>Dashboard</span>
+          </li>
+          <li>
+            <i className="bi bi-buildings"></i>
+            <span>Clients</span>
+          </li>
+          <li>
+            <i className="bi bi-building-gear"></i>
+            <span>Entreprises</span>
+          </li>
+          <li>
+            <i className="bi bi-person"></i>
+            <span>Formateurs</span>
+          </li>
+          <li>
+            <i className="bi bi-info-circle"></i>
+            <span>Formations</span>
+          </li>
+          <li style={{ cursor: "pointer" }} onClick={() => (window.location.href = "/certifications")}>
+            <i className="bi bi-award"></i>
+            <span>Certifications</span>
+          </li>
         </ul>
       </aside>
 

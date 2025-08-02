@@ -1,0 +1,67 @@
+.title {
+  text-align: center;
+  font-size: 26px;
+  margin-top: 40px;
+  margin-bottom: 20px;
+  font-weight: 700;
+  color: #03658C;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+
+.formateurs-container {
+  padding: 10px;
+  transition: margin-left 0.3s ease;
+  width: 100%;
+}
+
+.table-formateurs {
+  width: 150%;
+  max-width: 1800px;
+  border-collapse: separate;
+  border-spacing: 0 12px;
+  box-shadow: 0 2px 10px rgba(3, 101, 140, 0.2);
+  border-radius: 10px;
+  overflow: hidden;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #fff;
+  margin: 0 auto;
+}
+
+.table-formateurs thead tr {
+  background-color: #03658C;
+  color: white;
+  text-align: left;
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.table-formateurs th,
+.table-formateurs td {
+  padding: 14px 20px;
+  vertical-align: middle;
+}
+
+.table-formateurs tbody tr {
+  background-color: #f0f8ff;
+  border-radius: 6px;
+  box-shadow: 0 1px 4px rgba(3, 101, 140, 0.1);
+  transition: background-color 0.2s ease;
+}
+
+.table-formateurs tbody tr:hover {
+  background-color: #e1f0fb;
+}
+
+.table-formateurs td button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 19px;
+  margin: 0 5px;
+  transition: transform 0.2s ease;
+}
+
+.table-formateurs td button:hover {
+  transform: scale(1.2);
+}

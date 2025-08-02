@@ -8,41 +8,57 @@ const FormNMotDePasse = () => {
   const [success, setSuccess] = useState(null);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const [newPassword, setNewPassword] = useState(null);
+
 
   useEffect(() => {
     document.title = "Regénérer mot de passe";
     document.body.style.backgroundColor = "#0367A6";
   }, []);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    setError(null);
-    setSuccess(null);
-    try {
-      const response = await fetch("http://localhost:3001/users/resetpassword", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
-      });
+// FormNMotDePasse.js
 
-      const data = await response.json();
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  setLoading(true);
+  setError(null);
+  setSuccess(null);
+  setNewPassword(null);
+  try {
+    const response = await fetch("http://localhost:3001/users/resetpassword", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email }),
+    });
 
-      if (!response.ok) throw new Error(data.message || "Erreur lors de la réinitialisation");
+    const data = await response.json();
 
-      setSuccess("Nouveau email envoyé avec succès");
+    if (!response.ok) throw new Error(data.message || "Erreur lors de la réinitialisation");
 
-      // redirige après 2 secondes
-      setTimeout(() => {
-        navigate("/");
-      }, 2000);
+setSuccess("Récupération faite avec succès");
+setNewPassword(data.newPassword);
 
-    } catch (err) {
-      setError(err.message);
-    } finally {
-      setLoading(false);
+// Sauvegarder dans localStorage pour Remember Me
+localStorage.setItem("savedEmail", email);
+localStorage.setItem("savedPassword", data.newPassword);
+
+setTimeout(() => {
+  navigate("/", {
+    state: {
+      email: email,
+      newPassword: data.newPassword
     }
-  };
+  });
+}, 2000);
+
+
+  } catch (err) {
+    setError(err.message);
+  } finally {
+    setLoading(false);
+  }
+};
+
 
   return (
     <Box
@@ -78,7 +94,13 @@ const FormNMotDePasse = () => {
             margin="normal"
             required
           />
-
+          {newPassword && (
+            <Box mt={2} p={2} sx={{ backgroundColor: "#f0f0f0", borderRadius: 1 }}>
+              <Typography variant="body1" align="center">
+                Votre nouveau mot de passe est : <strong style={{ color: "#F27405" }}>{newPassword}</strong>
+              </Typography>
+            </Box>
+          )}
           <Button
             type="submit"
             variant="contained"
