@@ -14,6 +14,7 @@ import ViewPlanning from "./components/ViewPlanning";
 import PlanningCalendar from "./components/PlanningCalendar";
 import ValidFormation from "./components/ValidFormation";
 
+
 // Autres composants
 import FormNMotDePasse from "./components/formnmotdepasse";
 import CalendarCard from "./components/CalendarCard";
@@ -22,6 +23,8 @@ import UpdateAdmin from "./components/updateAdmin";
 import EvaluationFormateur from "./components/EvaluationFormateur";
 import FormateurDetails from "./components/FormateurDetails";
 import Certifications from "./components/certifications";
+import ImportParticipants from "./components/ImportParticipants";
+
 
 function App() {
   return (
@@ -43,6 +46,7 @@ function App() {
         <Route path="/evaluations" element={<EvaluationFormateur />} />
         <Route path="/formateur/:id" element={<FormateurDetails />} />
         <Route path="/certifications" element={<Certifications />} />
+        <Route path="/import" element={<ImportParticipants/>}/>
       </Routes>
     </Router>
   );
