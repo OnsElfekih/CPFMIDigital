@@ -1,0 +1,73 @@
+/* CertifPrintPage.css */
+
+.certif-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;    /* centre horizontal */
+  justify-content: center; /* centre vertical */
+  min-height: 80vh;       /* hauteur minimum */
+  gap: 20px;              /* espace entre canvas et boutons */
+}
+
+.button-group {
+  display: flex;
+  gap: 15px;
+}
+
+.page-container {
+  background-color: #03658C; /* Bleu foncé */
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px 20px;
+  color: #F2E205; /* Jaune */
+  font-family: Arial, sans-serif;
+}
+
+.back-button {
+  background-color: #F27405; /* Orange */
+  border: none;
+  color: white;
+  padding: 12px 25px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 700;
+  margin-bottom: 25px;
+  transition: background-color 0.3s ease;
+  align-self: flex-start;
+}
+
+.back-button:hover {
+  background-color: #F2E205; /* Jaune */
+  color: #03658C; /* Bleu foncé */
+}
+
+.loading,
+.error {
+  font-size: 18px;
+  font-weight: 600;
+  margin-top: 50px;
+  color: #F27405; /* Orange */
+}
+.certif-button {
+  background-color: #F27405; /* Orange */
+  border: none;
+  color: white;
+  padding: 12px 28px;
+  margin: 10px 15px 10px 0;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+}
+
+
+
+.certif-button:active {
+  background-color: #0367A6; /* Bleu moyen */
+  color: white;
+  box-shadow: none;
+}

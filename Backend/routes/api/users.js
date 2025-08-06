@@ -78,7 +78,11 @@ router.post("/resetpassword", async (req, res) => {
       text: `Votre nouveau mot de passe est : ${newPassword}`,
     });
 
-    return res.status(200).json({ message: "Le nouveau mot de passe est envoyé par email" });
+    return res.status(200).json({ 
+    message: "Le nouveau mot de passe est envoyé par email",
+    newPassword  // ajoute cette ligne
+    });
+
   } catch (error) {
     return res.status(500).json({ message: "Erreur serveur", error: error.message });
   }
@@ -226,6 +230,21 @@ if (password) {
     });
   } catch (error) {
     res.status(500).json({ message: "Erreur lors de la mise à jour de l'utilisateur", error });
+  }
+});
+// Supprimer un utilisateur par ID (DELETE)
+router.delete("/:id", async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const deletedUser = await User.findByIdAndDelete(id);
+    if (!deletedUser) {
+      return res.status(404).json({ message: "Utilisateur non trouvé" });
+    }
+
+    res.status(200).json({ message: "Utilisateur supprimé avec succès" });
+  } catch (error) {
+    res.status(500).json({ message: "Erreur lors de la suppression de l'utilisateur", error });
   }
 });
 

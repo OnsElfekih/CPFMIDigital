@@ -3,6 +3,7 @@ import axios from "axios";
 import CombinedLayoutAdmin from "./CombinedLayoutAdmin";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import "./updateAdmin.css";
+import { useNavigate } from "react-router-dom";
 
 const UpdateAdmin = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -14,6 +15,7 @@ const UpdateAdmin = () => {
   const [adminId, setAdminId] = useState("");
   const [success, setSuccess] = useState("");
   const [error, setError] = useState("");
+  const navigate = useNavigate();
 
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -45,6 +47,7 @@ const UpdateAdmin = () => {
     const res = await axios.post("http://localhost:3001/users/check-password", {
       userId: adminId,
       newPassword: admin.password
+      
     });
     return res.data.isSame; // true si même mot de passe
   } catch {
@@ -87,6 +90,9 @@ if (isSame) {
         localStorage.setItem("email", admin.email);
         localStorage.setItem("password", admin.password);
         setOldPassword(admin.password);
+        setTimeout(() => {
+        navigate("/homeAdmin");
+      }, 2000);
       })
       .catch(err => {
         console.error("Erreur mise à jour admin :", err);
@@ -108,7 +114,7 @@ if (isSame) {
         }}
       >
         <h2>Modifier votre profil</h2>
-        {success && <p style={{ color: "green" }}>{success}</p>}
+        {success && <p style={{ color: "#F27405" }}>{success}</p>}
         {error && <p style={{ color: "red" }}>{error}</p>}
 
         <form className="update-admin-form" onSubmit={handleSubmit}>

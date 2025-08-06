@@ -1,0 +1,89 @@
+.form-container {
+  max-width: 500px;
+  width: 90%;
+  padding: 25px;
+  border: 2px solid #03658C;
+  border-radius: 10px;
+  background-color: #f9f9f9;
+  box-shadow: 0 0 10px rgba(3, 101, 140, 0.2);
+  margin: 160px auto; /* avant c'était 40px ou 20px, mets 80px pour plus d’espace */
+}
+
+.form-container h2 {
+  text-align: center;
+  margin-bottom: 25px;
+  color: #0367A6;
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.update-certification-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.update-certification-form label {
+  margin-bottom: 5px;
+  font-weight: 600;
+  color: #03658C;
+}
+
+.update-certification-form input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 20px;
+  border: 2px solid #03658C; /* épaisseur augmentée */
+  border-radius: 5px;
+  box-sizing: border-box;
+  font-size: 14px;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  background-color: #fff;
+}
+
+.update-certification-form input:focus {
+  border-color: #F27405;
+  outline: none;
+  box-shadow: 0 0 5px rgba(242, 116, 5, 0.3);
+}
+
+.button-update {
+  background-color: #0367A6;
+  color: white;
+  padding: 12px 20px;
+  border: 2px solid #03658C; /* border visible sur le bouton aussi */
+  border-radius: 5px;
+  cursor: pointer;
+  width: 100%;
+  font-size: 16px;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+}
+
+.button-update:hover {
+  background-color: #03658C;
+}
+
+.button-update:active {
+  background-color: #F27405;
+}
+.button-cancel {
+  background-color: #aaa;
+  color: white;
+  padding: 12px 20px;
+  border: 2px solid #888;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 100%;
+  font-size: 16px;
+  font-weight: 600;
+  margin-top: 10px;
+  transition: background-color 0.3s ease;
+}
+
+.button-cancel:hover {
+  background-color: #888;
+}
+
+.button-cancel:active {
+  background-color: #666;
+}

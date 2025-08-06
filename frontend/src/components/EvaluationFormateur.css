@@ -22,3 +22,7 @@
 input[type="number"] {
   width: 50px;
 }
+.main-content {
+  margin-left: 80px;
+  padding-top: 60px; /* 👈 déjà présent */
+}

@@ -11,16 +11,10 @@
     "bcryptjs": "^3.0.2",
     "config": "^4.0.0",
     "cors": "^2.8.5",
-    "csvtojson": "^2.0.10",
-    "date-fns": "^4.1.0",
     "express": "^5.1.0",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.16.3",
-    "multer": "^2.0.2",
-    "react-beautiful-dnd": "^13.1.1",
-    "react-big-calendar": "^1.19.4",
-    "resend": "^4.6.0",
-    "xlsx": "^0.18.5"
+    "resend": "^4.6.0"
   },
   "name": "backend",
   "version": "1.0.0",

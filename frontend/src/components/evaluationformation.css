@@ -1,0 +1,85 @@
+.evaluation-form {
+  width: 90%;
+  max-width: 600px;
+  margin: 0 auto;
+  background-color: #f9f9f9;
+  padding: 25px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(3, 101, 140, 0.15);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.evaluation-form label {
+  font-weight: 600;
+  color: #03658C;
+}
+
+.evaluation-form input[type="number"],
+.evaluation-form input[type="text"],
+.evaluation-form textarea {
+  width: 100%;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #03658C;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+.evaluation-form input:focus,
+.evaluation-form textarea:focus {
+  outline: none;
+  border-color: #0367A6;
+  box-shadow: 0 0 5px rgba(3, 103, 166, 0.4);
+}
+
+.checkbox-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.star-rating {
+  display: flex;
+  gap: 5px;
+  font-size: 24px;
+  user-select: none;
+}
+
+.star-rating span {
+  cursor: pointer;
+  color: #ccc; /* gris par défaut */
+  transition: color 0.2s ease;
+}
+
+.star-rating span.selected {
+  color: #F27405; /* orange quand sélectionné */
+}
+
+.btn-ajouter {
+    background-color: #F27405;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    font-weight: normal;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+    display: block;
+    margin: 20px auto;
+}
+
+.btn-annuler {
+    background-color: gray;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    font-weight: normal;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+    display: block;
+    margin: 15px auto;
+}

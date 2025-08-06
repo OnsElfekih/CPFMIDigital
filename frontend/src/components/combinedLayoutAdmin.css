@@ -25,6 +25,7 @@
 /* Main Content */
 .main-content {
   margin-left: 80px;
+  margin-top: 50px;
   padding-top: 60px;
   transition: margin-left 0.3s ease;
   width: calc(100% - 80px);
@@ -41,6 +42,7 @@
 
 
 .sidebar.open {
+  left: 0;
   width: 200px;
 }
 
@@ -57,8 +59,9 @@
   top: 0;
   left: 0;
   right: 0;
-  height: 60px;
+  height: 50px;
   z-index: 1000;
+  display: flex;
 }
 
 .navbar-left {
@@ -86,7 +89,7 @@
 /* Sidebar styles */
 .sidebar {
   position: fixed;
-  top: 60px; /* sous la navbar */
+  top: 50px; /* sous la navbar */
   left: 0;
   width: 80px; /* fermé */
   height: calc(100vh - 60px);
@@ -94,11 +97,13 @@
   color: white;
   transition: width 0.3s ease;
   overflow-x: hidden;
+  overflow-y: auto;
   display: flex;
   flex-direction: column;
   align-items: center;
   padding-top: 10px;
   z-index: 999;
+  transition: all 0.3s;
 }
 
 .sidebar.open {
@@ -187,4 +192,9 @@
   color: white;
 }
 
+.layout-container {
+  display: flex;
+  height: 100vh;
+  flex-direction: column;
+}
 

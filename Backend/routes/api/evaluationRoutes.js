@@ -6,4 +6,7 @@ const { createEvaluation, getEvaluations } = require('../../controllers/evaluati
 router.post('/add', createEvaluation);
 router.get('/', getEvaluations);
 
+console.log('Type createEvaluation:', typeof createEvaluation); // doit être 'function'
+
+
 module.exports = router;

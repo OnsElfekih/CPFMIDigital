@@ -1,0 +1,129 @@
+.facture-container {
+  max-width: 500px;
+  margin: 40px auto;
+  padding: 25px 30px;
+  border-radius: 15px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  background: #fff;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.facture-container h2 {
+  text-align: center;
+  margin-bottom: 25px;
+  color: #333;
+}
+
+.facture-form .form-group {
+  margin-bottom: 18px;
+  display: flex;
+  flex-direction: column;
+}
+
+.facture-form label {
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #444;
+}
+
+.facture-form input {
+  padding: 10px 14px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 15px;
+  transition: all 0.3s ease;
+}
+
+.facture-form input:focus {
+  border-color: #5c67f2;
+  box-shadow: 0 0 5px rgba(92, 103, 242, 0.4);
+  outline: none;
+}
+
+.submit-btn {
+  margin-top: 15px;
+  width: 100%;
+  padding: 12px 0;
+  background-color: #5c67f2;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.submit-btn:hover {
+  background-color: #444ef3;
+}
+.formation-block {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+  flex-wrap: wrap;
+}
+
+.formation-block input {
+  flex: 1 1 200px;
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.btn-supprimer {
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 0 10px;
+  cursor: pointer;
+  height: 40px;
+  align-self: center;
+}
+
+.btn-supprimer:hover {
+  background-color: #c0392b;
+}
+
+.add-formation-btn {
+  margin-bottom: 15px;
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: none;
+  background-color: #3498db;
+  color: white;
+  cursor: pointer;
+}
+
+.add-formation-btn:hover {
+  background-color: #2980b9;
+}
+
+.total-montant {
+  font-size: 1.2em;
+  margin-bottom: 20px;
+  color: #222;
+}
+
+.facture-container {
+  max-width: 700px;          /* Limite la largeur pour un meilleur confort */
+  margin: 40px auto 20px auto;         /* Centre horizontalement et espace vertical */
+  background: #fff;
+  padding: 30px 40px 15px 40px; /* Ajoute un padding confortable */
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  color: #333;
+  display: flex;
+  flex-direction: column;
+  align-items: center;      /* Centre le contenu à l’intérieur */
+}
+
+.facture-container h2 {
+  font-weight: 700;
+  font-size: 1.9rem;
+  color: #2c3e50;
+  margin-bottom: 25px;
+  text-align: center;       /* Centre le texte du titre */
+}
