@@ -51,6 +51,17 @@ router.put("/:id", async (req, res) => {
   }
 });
 
+// Dans routes/api/entreprises.js
+// 🔹 GET: récupérer toutes les entreprises (nom + _id)
+router.get("/", async (req, res) => {
+  try {
+    const entreprises = await Entreprise.find(); // ← vérifie bien que le modèle contient "nom"
+    res.json(entreprises);
+  } catch (error) {
+    res.status(500).json({ error: "Erreur lors de la récupération des entreprises" });
+  }
+});
+
 // 🔹 DELETE: supprimer une entreprise
 router.delete("/:id", async (req, res) => {
   try {

@@ -111,7 +111,7 @@ const exportToPDF = () => {
     }
   };
 
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
 const toggleSidebar = () => {
   setIsSidebarOpen(prev => !prev);
@@ -292,12 +292,15 @@ const toggleSidebar = () => {
           }}>
             <EditIcon />
           </IconButton>
-          <IconButton color="error" onClick={(e) => {
-            e.stopPropagation();
-            setDeleteConfirm(formation._id);
-          }}>
-            <DeleteIcon />
-          </IconButton>
+         <IconButton 
+  onClick={(e) => {
+    e.stopPropagation();
+    setDeleteConfirm(formation._id);
+  }}
+  sx={{ color: 'orange' }} // Couleur personnalisée
+>
+  <DeleteIcon />
+</IconButton>
         </Box>
       </Paper>
       
@@ -339,12 +342,15 @@ const toggleSidebar = () => {
             }}>
               <EditIcon />
             </IconButton>
-            <IconButton color="error" onClick={(e) => {
-              e.stopPropagation();
-              setDeleteConfirm(formation._id);
-            }}>
-              <DeleteIcon />
-            </IconButton>
+           <IconButton 
+  onClick={(e) => {
+    e.stopPropagation();
+    setDeleteConfirm(formation._id);
+  }}
+  sx={{ color:" #F27405" }} // Couleur personnalisée
+>
+  <DeleteIcon />
+</IconButton>
           </Box>
         </Paper>
       ))

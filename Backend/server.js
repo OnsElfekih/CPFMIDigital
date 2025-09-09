@@ -10,6 +10,14 @@ const formations = require("./routes/api/formations");
 const formateurRoutes = require("./routes/api/formateurRoutes");
 const planningRoutes = require("./routes/api/planningRoutes");
 const evaluationRoutes = require("./routes/api/evaluationRoutes");
+const formations = require("./routes/api/formations");
+const formateursRoutes=require("./routes/api/formateur");
+const participantRoutes = require("./routes/api/participants");
+const entrepriseRoutes = require("./routes/api/Entreprises");
+
+
+
+
 const factureRoutes = require("./routes/api/factureRoutes");
 const emailRoutes = require("./routes/api/emailRoutes");
 const disponibiliteRoutes = require("./routes/api/disponibiliteRoutes");
@@ -40,6 +48,10 @@ mongoose
 app.use("/api/users", users);
 app.use("/api/formations", formations);
 app.use("/api/formateurs", formateurRoutes);
+app.use("/api/participants", participantRoutes);
+app.use("/api/entreprises", entrepriseRoutes); // ✅ branchement correct
+
+
 app.use("/api/planning", planningRoutes);
 app.use("/api/evaluationRoutes", evaluationRoutes);
 app.use("/api/factures", factureRoutes);

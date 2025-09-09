@@ -15,6 +15,7 @@ import ViewPlanning from "./components/ViewPlanning";
 import PlanningCalendar from "./components/PlanningCalendar";
 import ValidFormation from "./components/ValidFormation";
 import AdminFormateurs from "./components/AdminFormateurs";
+
 // User & profile
 import FormMotdepasse from "./components/formnmotdepasse";
 import UpdateAdmin from "./components/updateAdmin";
@@ -36,6 +37,7 @@ import AddCertificationsEntreprise from "./components/addCertificationEntreprise
 import AddCertificationsParticipant from "./components/addCertificationParticipant";
 import UpdateCertif from "./components/updateCertification";
 import CertifPrintPage from "./components/CertifPrintPage";
+import ImportParticipants from "./components/ImportParticipants";
 
 // UI & Layouts
 import CalendarCard from "./components/CalendarCard";
@@ -46,8 +48,6 @@ import FactureForm from "./components/FactureForm";
 import HonoraireFormateurForm from "./components/HonoraireFormateurForm";
 import ArchivePage from './components/ArchivePage';
 import MesHonoraires from "./components/MesHonoraires";
-
-// Calendars
 import FormateurCalendar from "./components/FormateurCalendar";
 import ClientCalendar from "./components/ClientCalendar";
 import FacturesClient from "./components/FacturesClient";
@@ -56,7 +56,7 @@ function App() {
   return (
     <Router>
       <Routes>
-        {/* Authentication & redirection */}
+        {/* Authentication */}
         <Route path="/" element={<Login />} />
         <Route path="/formnmotdepasse" element={<FormMotdepasse />} />
         <Route path="/mdp" element={<FormMotdepasse />} />
@@ -67,7 +67,7 @@ function App() {
         <Route path="/entreprise" element={<HomeEntreprise />} />
 
         {/* Planning */}
-        {/* <Route path="/planning" element={<ViewPlanning />} /> */}
+        <Route path="/planning" element={<ViewPlanning />} />
         <Route path="/planningcal" element={<PlanningCalendar />} />
         <Route path="/calendarcard" element={<CalendarCard />} />
         <Route path="/formateur-calendar" element={<FormateurCalendar />} />
@@ -86,12 +86,13 @@ function App() {
 
         {/* Certifications */}
         <Route path="/certifications" element={<Certifications />} />
+        <Route path="/import" element={<ImportParticipants />} />
         <Route path="/addCertificationEntreprise" element={<AddCertificationsEntreprise />} />
         <Route path="/addCertificationParticipant" element={<AddCertificationsParticipant />} />
         <Route path="/updatecertif/:id" element={<UpdateCertif />} />
         <Route path="/certifprint/:id" element={<CertifPrintPage />} />
 
-        {/* Utilisateurs & profils */}
+        {/* Users & profiles */}
         <Route path="/updateClient" element={<UpdateEntreprise />} />
         <Route path="/updateAdmin" element={<UpdateAdmin />} />
         <Route path="/updateForm" element={<UpdateFormateur />} />
@@ -99,7 +100,7 @@ function App() {
         <Route path="/profilformateur/:id" element={<ProfilFormateur />} />
         <Route path="/listeformateur" element={<ListeFormateurs />} />
         <Route path="/adminformateurs" element={<AdminFormateurs />} />
-        
+
         {/* Factures & honoraires */}
         <Route path="/facture" element={<FactureForm />} />
         <Route path="/honoraire" element={<HonoraireFormateurForm />} />
@@ -107,7 +108,7 @@ function App() {
         <Route path="/mes-honoraires" element={<MesHonoraires />} />
         <Route path="/mes-factures" element={<FacturesClient />} />
 
-        {/* Layouts & admin */}
+        {/* Layouts */}
         <Route path="/navsidad" element={<CombinedLayoutAdmin />} />
       </Routes>
     </Router>
