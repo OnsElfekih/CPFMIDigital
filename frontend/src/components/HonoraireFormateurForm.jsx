@@ -12,7 +12,8 @@ export default function HonoraireFormateurForm() {
     formateurId: '',
     type: 'taux_horaire',
     valeur: '',
-    heures: ''
+    heures: '',
+    statut: 'envoyée' // ✅ par défaut
   });
 
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -21,17 +22,20 @@ export default function HonoraireFormateurForm() {
     setIsSidebarOpen(!isSidebarOpen);
   };
 
+  // Charger la liste des formateurs
   useEffect(() => {
     axios.get('http://localhost:3001/api/formateurs')
       .then(res => setFormateurs(res.data))
       .catch(err => console.error(err));
   }, []);
 
+  // Gestion changement des champs
   const handleChange = e => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
+  // Soumission formulaire
   const handleSubmit = async e => {
     e.preventDefault();
     try {
@@ -50,23 +54,27 @@ export default function HonoraireFormateurForm() {
         formateurId: '',
         type: 'taux_horaire',
         valeur: '',
-        heures: ''
+        heures: '',
+        statut: 'envoyée'
       });
 
-       // ✅ Rediriger vers la page d'archive avec l'ID du formateur
-    navigate('/archive', { state: { formateurId: res.data.honoraire.formateurId } });
+      // ✅ Rediriger vers la page d'archive avec l'ID du formateur
+      navigate('/archive', { state: { formateurId: res.data.honoraire.formateurId } });
     } catch (err) {
       console.error(err);
       alert("Erreur lors de l'ajout.");
     }
   };
 
-
   return (
     <CombinedLayoutAdmin isSidebarOpen={isSidebarOpen} toggleSidebar={toggleSidebar}>
       <div className="honoraire-form">
-        <h2><FaFileInvoiceDollar style={{ marginRight: "10px" }} />Ajouter Note d'Honoraires</h2>
+        <h2>
+          <FaFileInvoiceDollar style={{ marginRight: "10px" }} />
+          Ajouter Note d'Honoraires
+        </h2>
         <form onSubmit={handleSubmit}>
+          
           <label>Formateur :</label>
           <select name="formateurId" value={formData.formateurId} onChange={handleChange} required>
             <option value="">-- Choisir --</option>
@@ -84,14 +92,34 @@ export default function HonoraireFormateurForm() {
           </select>
 
           <label>Valeur (TND) :</label>
-          <input type="number" name="valeur" value={formData.valeur} onChange={handleChange} required />
+          <input
+            type="number"
+            name="valeur"
+            value={formData.valeur}
+            onChange={handleChange}
+            required
+          />
 
           {formData.type === "taux_horaire" && (
             <>
               <label>Nombre de jours :</label>
-              <input type="number" name="heures" value={formData.heures} onChange={handleChange} required />
+              <input
+                type="number"
+                name="heures"
+                value={formData.heures}
+                onChange={handleChange}
+                required
+              />
             </>
           )}
+
+          {/* ✅ Nouveau champ Statut */}
+          <label>Statut :</label>
+          <select name="statut" value={formData.statut} onChange={handleChange}>
+            <option value="envoyée">Envoyée</option>
+            <option value="validée">Validée</option>
+            <option value="payée">Payée</option>
+          </select>
 
           <button type="submit">Générer PDF + Sauvegarder</button>
           <button
@@ -109,7 +137,6 @@ export default function HonoraireFormateurForm() {
           >
             Voir les archives
           </button>
-
         </form>
       </div>
     </CombinedLayoutAdmin>

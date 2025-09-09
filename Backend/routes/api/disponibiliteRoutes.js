@@ -6,12 +6,12 @@ const controller = require('../../controllers/disponibiliteController');
 // ➕ Ajouter une disponibilité
 router.post('/add', async (req, res) => {
   try {
-    const { formateurId, date, periode } = req.body;
+    const { formateurId, date, periode, formation } = req.body;
 
     console.log("Données reçues :", req.body);
 
     // Convertir date en Date JS et normaliser à minuit UTC
-    const parsedDate = new Date(date);
+    const parsedDate = new Date(`${date}T00:00:00.000Z`);
     parsedDate.setUTCHours(0, 0, 0, 0);
 
     const nextDay = new Date(parsedDate);
@@ -35,6 +35,7 @@ router.post('/add', async (req, res) => {
       formateurId,
       date: parsedDate,
       periode,
+      formation
     });
 
     await dispo.save();
@@ -47,16 +48,33 @@ router.post('/add', async (req, res) => {
 });
 
 // 🔄 Récupérer les dispos d’un formateur
-router.get('/:formateurId', async (req, res) => {
+router.get('/public', async (req, res) => {
   try {
-    const { formateurId } = req.params;
-    const disponibilites = await Disponibilite.find({ formateurId });
+     const { formation, periode } = req.query;
+    let query = {};
+
+    if (formation) query.formation = formation;
+    if (periode) query.periode = periode;
+
+    const disponibilites = await Disponibilite.find(query).populate("formateurId", "nom prenom email");
     res.status(200).json(disponibilites);
   } catch (error) {
     console.error("Erreur lors de la récupération :", error);
     res.status(500).json({ message: 'Erreur serveur.' });
   }
 });
+
+// 🔹 Récupérer toutes les formations distinctes
+router.get('/formations', async (req, res) => {
+  try {
+    const formations = await Disponibilite.distinct("formation", { formation: { $ne: null } });
+    res.status(200).json(formations);
+  } catch (error) {
+    console.error("Erreur lors de la récupération des formations:", error);
+    res.status(500).json({ message: "Erreur serveur" });
+  }
+});
+
 // ❌ Supprimer une disponibilité (ex: déselection dans le calendrier)
 router.delete('/remove', async (req, res) => {
   try {
@@ -84,7 +102,42 @@ router.delete('/remove', async (req, res) => {
   }
 });
 
-router.post('/add', controller.ajouterDisponibilite);
-router.get('/:formateurId', controller.getDisponibilites);
+
+// 🔄 Récupérer toutes les disponibilités (pour admin)
+router.get('/all', async (req, res) => {
+  try {
+    const disponibilites = await Disponibilite.find()
+      .populate("formateurId", "nom prenom email");
+    
+    // Convertir date et période en format lisible pour le calendrier
+    const events = disponibilites.map(d => {
+      let start = new Date(d.date);
+      let end = new Date(d.date);
+
+      // Définir l'heure selon la période
+      if (d.periode === "matin") start.setHours(9, 0, 0), end.setHours(12, 0, 0);
+      else if (d.periode === "apres-midi") start.setHours(13, 0, 0), end.setHours(17, 0, 0);
+      else if (d.periode === "soir") start.setHours(18, 0, 0), end.setHours(20, 0, 0);
+
+      return {
+        id: d._id,
+        title: `Disponible: ${d.formateurId.nom} ${d.formateurId.prenom}`,
+        start,
+        end,
+        extendedProps: {
+          formateur: `${d.formateurId.nom} ${d.formateurId.prenom}`,
+          periode: d.periode,
+          formation: d.formation || "Libre",
+        },
+      };
+    });
+
+    res.status(200).json(events);
+  } catch (error) {
+    console.error("Erreur récupération disponibilités :", error);
+    res.status(500).json({ message: "Erreur serveur", error: error.message });
+  }
+});
+
 
 module.exports = router;

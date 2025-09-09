@@ -4,10 +4,9 @@
   padding: 30px;
   max-width: 600px;
   margin: auto; /* centre horizontalement */
-  position: absolute;
-  top: 40%;
-  left: calc(40% + 60px); /* ajuste selon sidebar */
-  transform: translate(-50%, -50%);
+  
+  
+  
   box-shadow: 0 4px 12px rgba(3, 101, 140, 0.2);
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   text-align: center;
@@ -38,4 +37,46 @@
   font-weight: 600;
 }
 
+.dashboard-formateur {
+   padding: 30px 40px;
+  margin-top: 60px; /* espace sous le header */
+  min-height: calc(100vh - 60px);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.dashboard-title {
+  font-size: 26px;
+  color: #03658C;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 30px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 20px;
+  /*padding: 0 20px;*/
+}
+
+.dashboard-card {
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(3, 101, 140, 0.1);
+  cursor: pointer;
+  transition: transform 0.2s ease;
+  text-align: center;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.dashboard-card:hover {
+  transform: scale(1.05);
+}
+
+.dashboard-icon {
+  font-size: 36px;
+  margin-bottom: 12px;
+  color: #333;
+}
 

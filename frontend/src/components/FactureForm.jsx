@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import CombinedLayoutAdmin from "./CombinedLayoutAdmin"; // adapte le chemin si besoin
 import "./FactureForm.css";
+import Cookies from "js-cookie";
 
 export default function FactureForm() {
   const [facture, setFacture] = useState({
@@ -12,6 +13,7 @@ export default function FactureForm() {
       { nomFormation: "", nomFormateur: "", montantFormation: "" }
     ],
     montantTotal: 0,
+    statut: "en attente", // ✅ ajouté
   });
 
   // Gestion ouverture sidebar
@@ -21,7 +23,7 @@ export default function FactureForm() {
     setIsSidebarOpen(!isSidebarOpen);
   };
 
-  // Met à jour les champs simples (numero, clientNom, clientEmail)
+  // Met à jour les champs simples (numero, clientNom, clientEmail, statut si select)
   const handleChange = (e) => {
     setFacture({ ...facture, [e.target.name]: e.target.value });
   };
@@ -60,14 +62,19 @@ export default function FactureForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const payload = { ...facture, montant: facture.montantTotal };
-      await axios.post("http://localhost:3001/api/factures/add", payload);
+      const payload = { ...facture, montant: facture.montantTotal, statut: facture.statut }; // ✅ statut ajouté
+      await axios.post("http://localhost:3001/api/factures/add", payload,
+      {
+        headers: {
+          Authorization: `Bearer ${Cookies.get("token")}` // ou localStorage.getItem("token")
+        }
+      });
       alert("✅ Facture envoyée avec succès !");
 
       // Téléchargement automatique du PDF après création
-    const pdfResponse = await axios.get(`http://localhost:3001/api/factures/pdf/facture_${facture.numero}`, {
-      responseType: "blob",
-    });
+      const pdfResponse = await axios.get(`http://localhost:3001/api/factures/pdf/facture_${facture.numero}`, {
+        responseType: "blob",
+      });
 
     } catch (err) {
       console.error(err);
@@ -207,8 +214,21 @@ export default function FactureForm() {
             <strong>Total : {facture.montantTotal.toFixed(2)} DT</strong>
           </div>
 
+          {/* ✅ Champ statut */}
+          <div className="form-group">
+            <label>Statut de la facture</label>
+            <select
+              name="statut"
+              value={facture.statut}
+              onChange={handleChange}
+            >
+              <option value="en attente">⏳ En attente</option>
+              <option value="payée">✅ Payée</option>
+            </select>
+          </div>
+
           <button type="submit" className="submit-btn">
-            📬 Envoyer la facture
+            📬 Enregistrer la facture
           </button>
         </form>
 

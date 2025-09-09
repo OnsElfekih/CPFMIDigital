@@ -8,7 +8,7 @@ const honoraireSchema = new mongoose.Schema({
   total: { type: Number, required: true },
   date: { type: Date, default: Date.now },
   archive: { type: Boolean, default: false },
-  status: { type: String, enum: ["validée", "envoyée", "payée"], default: "validée" },
+  statut: { type: String, enum: ["validée", "envoyée", "payée"], default: "envoyée" },
   pdfPath: String,
 });
 

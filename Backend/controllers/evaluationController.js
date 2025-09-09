@@ -60,3 +60,20 @@ exports.getEvaluations = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
+
+// Récupérer toutes les évaluations d'un formateur par son ID
+exports.getEvaluationsByFormateur = async (req, res) => {
+  try {
+    const { formateurId } = req.params;
+    const evaluations = await Evaluation.find({ formateur: formateurId }).populate("formateur");
+
+    if (!evaluations || evaluations.length === 0) {
+      return res.status(404).json({ message: "Aucune évaluation trouvée pour ce formateur." });
+    }
+
+    res.json(evaluations);
+  } catch (err) {
+    console.error("Erreur getEvaluationsByFormateur:", err.message);
+    res.status(500).json({ message: "Erreur serveur", error: err.message });
+  }
+};

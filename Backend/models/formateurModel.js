@@ -9,9 +9,8 @@ const formateurSchema = new mongoose.Schema({
     planning: String,
     diplome: String,
     domaine: String,
-    password:String
-
-    // Ajoute d'autres champs si nécessaire
-});
+    password: { type: String, required: true },
+    archived: { type: Boolean, default: false }, // suppression logique
+    }, { timestamps: true });
 
 module.exports = mongoose.model('Formateur', formateurSchema);

@@ -1,106 +1,147 @@
 import React, { useState, useEffect } from "react";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
+import timeGridPlugin from "@fullcalendar/timegrid";
+import interactionPlugin from "@fullcalendar/interaction";
 import axios from "axios";
 import CombinedLayoutAdmin from "./CombinedLayoutAdmin"; // adapte le chemin
 
+// Palette de couleurs pour les formateurs
+const formateurColors = [
+  "#FF6B6B",
+  "#6BCB77",
+  "#4D96FF",
+  "#FFD93D",
+  "#845EC2",
+  "#00C9A7",
+  "#FF9671",
+];
+
 export default function CalendarPlanning() {
-  const [formateurs, setFormateurs] = useState([]);
-  const [selectedFormateur, setSelectedFormateur] = useState("");
   const [events, setEvents] = useState([]);
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
 
+  // 🔹 Récupérer toutes les disponibilités
   useEffect(() => {
-    axios.get("http://localhost:3001/api/formateurs")
-      .then(res => setFormateurs(res.data))
-      .catch(err => console.error("Erreur lors du chargement des formateurs :", err));
+    const fetchDisponibilites = async () => {
+      try {
+        const res = await axios.get(
+          "http://localhost:3001/api/disponibilites/all"
+        );
+
+        const eventsData = res.data.map((d, index) => {
+          const start = new Date(d.start);
+          const end = new Date(d.end);
+
+          const color =
+            formateurColors[
+              index % formateurColors.length
+            ]; // choisir une couleur par dispo
+
+          return {
+            id: d.id,
+            title: `Disponible: ${d.extendedProps.formateur}`,
+            start,
+            end,
+            backgroundColor: color,
+            borderColor: color,
+            textColor: "#fff",
+            extendedProps: {
+              formateur: d.extendedProps.formateur,
+              periode: d.extendedProps.periode,
+              formation: d.extendedProps.formation || "Libre",
+            },
+          };
+        });
+
+        setEvents(eventsData);
+      } catch (err) {
+        console.error("Erreur lors du chargement des disponibilités :", err);
+      }
+    };
+
+    fetchDisponibilites();
   }, []);
 
-  useEffect(() => {
-    if (selectedFormateur) {
-      axios.get(`http://localhost:3001/api/planning/${selectedFormateur}`)
-        .then(res => {
-          const mappedEvents = res.data.map(planning => ({
-            id: planning._id,
-            title: planning.formation,
-            start: planning.dateDebut,
-            end: planning.dateFin,
-            extendedProps: {
-              description: planning.description || "Aucun détail fourni",
-              lieu: planning.lieu || "Non spécifié",
-              type: planning.type || "Formation",
-            }
-          }));
-          setEvents(mappedEvents);
-        })
-        .catch(err => console.error("Erreur lors du chargement du planning :", err));
-    } else {
-      setEvents([]);
-    }
-  }, [selectedFormateur]);
-
+  // 🔹 Cliquer sur un événement
   const handleEventClick = (info) => {
     setSelectedEvent(info.event);
   };
 
   return (
-    <>
-      <CombinedLayoutAdmin isSidebarOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
-      <div className={`main-content ${isSidebarOpen ? "sidebar-open" : ""}`} style={{ paddingTop: "90px" }}>
-        <h2 style={{ marginBottom: "20px", color: "#0367A6" }}>Planning des Formations</h2>
+    <CombinedLayoutAdmin isSidebarOpen={isSidebarOpen} toggleSidebar={toggleSidebar}>
+      <div style={{ paddingTop: "90px", paddingLeft: "20px", paddingRight: "20px" }}>
+        <h2
+        style={{
+          marginBottom: "30px",
+          color: "#0367A6",
+          fontWeight: "700",
+          fontSize: "36px",          // taille plus grande
+          textAlign: "center",       // centrer le titre
+          fontFamily: "'Poppins', sans-serif", // optionnel, pour un style plus moderne
+        }}
+      >
+        Planning des Formateurs
+      </h2>
 
-        <select
-          value={selectedFormateur}
-          onChange={(e) => {
-            setSelectedFormateur(e.target.value);
-            setSelectedEvent(null);
-          }}
-          style={{
-            padding: "10px",
-            marginBottom: "20px",
-            fontSize: "16px",
-            borderRadius: "5px",
-            border: "1px solid #ccc"
-          }}
-        >
-          <option value="">-- Sélectionner un formateur --</option>
-          {formateurs.map((f) => (
-            <option key={f._id} value={f._id}>
-              {f.nom} {f.prenom}
-            </option>
-          ))}
-        </select>
 
         <FullCalendar
-          plugins={[dayGridPlugin]}
+          plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
           initialView="dayGridMonth"
+          headerToolbar={{
+            left: "prev,next today",
+            center: "title",
+            right: "dayGridMonth,timeGridWeek,timeGridDay",
+          }}
           events={events}
           eventClick={handleEventClick}
           height="auto"
           locale="fr"
+          eventDisplay="block"
+          dayMaxEvents={3}
+          eventBorderColor="#fff"
+          eventTextColor="#fff"
+          eventClassNames="rounded-lg shadow-md"
         />
 
         {selectedEvent && (
-          <div style={{
-            marginTop: 30,
-            padding: 20,
-            border: "1px solid #ddd",
-            borderRadius: "10px",
-            backgroundColor: "#f9f9f9"
-          }}>
-            <h3>Détails de la Formation</h3>
-            <p><strong>Formation :</strong> {selectedEvent.title}</p>
-            <p><strong>Date de début :</strong> {selectedEvent.start.toLocaleDateString()}</p>
-            <p><strong>Date de fin :</strong> {selectedEvent.end ? selectedEvent.end.toLocaleDateString() : "Non spécifiée"}</p>
-            <p><strong>Description :</strong> {selectedEvent.extendedProps.description}</p>
-            <p><strong>Lieu :</strong> {selectedEvent.extendedProps.lieu}</p>
-            <p><strong>Type :</strong> {selectedEvent.extendedProps.type}</p>
+          <div
+            style={{
+              marginTop: 30,
+              padding: 25,
+              border: "1px solid #ddd",
+              borderRadius: "15px",
+              backgroundColor: "#f0f8ff",
+              boxShadow: "0 4px 10px rgba(0,0,0,0.1)",
+              maxWidth: "500px",
+            }}
+          >
+            <h3 style={{ marginBottom: 15, color: "#0367A6" }}>Détails de la Disponibilité</h3>
+            <p>
+              <strong>Formateur :</strong>{" "}
+              {selectedEvent.extendedProps.formateur}
+            </p>
+            <p>
+              <strong>Période :</strong> {selectedEvent.extendedProps.periode}
+            </p>
+            <p>
+              <strong>Formation :</strong>{" "}
+              {selectedEvent.extendedProps.formation}
+            </p>
+            <p>
+              <strong>Date de début :</strong>{" "}
+              {selectedEvent.start.toLocaleString()}
+            </p>
+            <p>
+              <strong>Date de fin :</strong>{" "}
+              {selectedEvent.end ? selectedEvent.end.toLocaleString() : "Non spécifiée"}
+            </p>
           </div>
         )}
       </div>
-    </>
+    </CombinedLayoutAdmin>
   );
 }

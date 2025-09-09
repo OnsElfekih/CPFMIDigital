@@ -7,6 +7,7 @@ const factureSchema = new mongoose.Schema({
   statut: { type: String, enum: ["payée", "en attente"], default: "en attente" },
   clientEmail: { type: String, required: true },
   clientNom: { type: String, required: true },
+  entreprise: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: false },
   formations: [
   {
     nomFormation: { type: String, required: true },
@@ -15,7 +16,8 @@ const factureSchema = new mongoose.Schema({
   }
 ],
 montant: { type: Number, required: true },
-  date: { type: Date, default: Date.now }
+statut: String,
+date: { type: Date, default: Date.now },
 
 });
 

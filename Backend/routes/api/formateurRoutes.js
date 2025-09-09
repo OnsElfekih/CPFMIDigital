@@ -1,11 +1,20 @@
 // routes/formateurRoutes.js
 const express = require('express');
 const router = express.Router();
-const { addFormateur, getCompetences } = require('../../controllers/formateurController');
+const { addFormateur, getCompetences,
+  getFormateurs,
+  getFormateurById,
+  updateFormateur,
+  deleteFormateur } = require('../../controllers/formateurController');
 const Formateur = require('../../models/formateurModel');
+const User = require('../../models/User');
 
 // Route POST pour ajouter un formateur
 router.post('/add', addFormateur);
+router.get('/', getFormateurs);
+router.get('/:id', getFormateurById);
+router.put('/:id', updateFormateur);
+router.delete('/:id', deleteFormateur);
 
 // Route GET pour récupérer tous les formateurs
 router.get('/', async (req, res) => {

@@ -1,0 +1,10 @@
+.main-content {
+  margin-top: 60px; /* Pour compenser la navbar fixe */
+  padding: 20px;
+  margin-left: 80px; /* Par défaut sidebar fermée */
+  transition: margin-left 0.3s ease;
+}
+
+.sidebar-open {
+  margin-left: 200px; /* Lorsque la sidebar est ouverte */
+}

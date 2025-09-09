@@ -1,8 +1,13 @@
 const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcryptjs");
-const Formateur = require("../../models/formateur");
+const Formateur = require("../../models/formateurModel");
 const User = require("../../models/User");
+const { addFormateur, getCompetences } = require("../../controllers/formateurController");
+
+// ➔ POST ajouter un formateur (et aussi user)
+router.post("/addform", addFormateur);
+
 
 // ➔ GET tous les formateurs
 router.get("/allform", async (req, res) => {
@@ -13,6 +18,9 @@ router.get("/allform", async (req, res) => {
     res.status(500).json({ message: "Erreur récupération formateurs", error });
   }
 });
+
+// ➔ GET compétences
+router.get("/competences", getCompetences);
 
 // ➔ GET un formateur par ID
 router.get("/:id", async (req, res) => {
@@ -57,7 +65,6 @@ router.post("/addform", async (req, res) => {
   }
 });
 
-// ➔ PUT mise à jour formateur
 // ➔ PUT mise à jour formateur
 router.put("/:id", async (req, res) => {
   const { id } = req.params;

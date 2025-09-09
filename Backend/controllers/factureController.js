@@ -7,9 +7,9 @@ const path = require("path");
 // Création de la facture + PDF + envoi
 const creerFacture = async (req, res) => {
   try {
-    const { numero, clientNom, clientEmail, formations, montant } = req.body;
+    const { numero, clientNom, clientEmail, formations, montant, statut } = req.body;
 
-    const facture = new Facture({ numero, clientNom, clientEmail, formations, montant });
+    const facture = new Facture({ numero, clientNom, clientEmail, formations, montant, statut,  entreprise: null });
     await facture.save();
     console.log("Facture sauvegardée en base :", facture);
 
@@ -20,8 +20,6 @@ const creerFacture = async (req, res) => {
     //const pdfPath = path.join(pdfDir, `facture_${numero}.pdf`);
     const filename = `facture_${numero}.pdf`;
     const pdfPath = path.join(__dirname, "../../frontend/public/factures", filename);
-
-
 
     const doc = new PDFDocument({ margin: 50, size: "A4" });
     doc.pipe(fs.createWriteStream(pdfPath));
@@ -45,11 +43,15 @@ const creerFacture = async (req, res) => {
       .fontSize(12)
       .fillColor("#000")
       .text(`Facture N° : ${numero}`, 50, 130)
+      .moveDown(0.5)
       .text(`Date : ${new Date().toLocaleDateString()}`, 50, 150)
+      .moveDown(0.5)
       .text(`Client : ${clientNom}`, 50, 170)
-      .moveDown();
+      .moveDown(0.5)
+      .text(`Statut : ${statut}`, 50, 190)
+      .moveDown(2);
 
-    const tableTop = 200;
+    const tableTop = 230;
     const formationX = 50;
     const formateurX = 300;
     const montantX = 470;
@@ -70,7 +72,7 @@ const creerFacture = async (req, res) => {
         .text(nomFormateur, formateurX, y)
         .text(`${Number(montantFormation).toFixed(2)
 } DT`, montantX, y, { align: "right" });
-      y += 20;
+      y += 30;
     });
 
     doc.moveTo(50, y + 10).lineTo(545, y + 10).stroke();
@@ -132,6 +134,7 @@ const telechargerPDF = async (req, res) => {
 
     const PDFDocument = require("pdfkit");
     const doc = new PDFDocument({ margin: 50, size: "A4" });
+    const startY = 130;
 
     res.setHeader("Content-disposition", `attachment; filename=facture_${numero}.pdf`);
     res.setHeader("Content-type", "application/pdf");
@@ -159,13 +162,17 @@ const telechargerPDF = async (req, res) => {
     doc
       .fontSize(12)
       .fillColor("#000")
-      .text(`Facture N° : ${facture.numero}`, 50, 130)
-      .text(`Date : ${new Date(facture.date).toLocaleDateString()}`, 50, 150)
-      .text(`Client : ${facture.clientNom}`, 50, 170)
-      .moveDown();
+      .text(`Facture N° : ${facture.numero}`, 50, startY)
+      .moveDown(0.5)
+      .text(`Date : ${new Date(facture.date).toLocaleDateString()}`, 50, startY+25)
+      .moveDown(0.5)
+      .text(`Client : ${facture.clientNom}`, 50, startY+50)
+      .moveDown(0.5)
+      .text(`Statut : ${facture.statut}`, 50, startY+75)
+      .moveDown(2);
 
     // Tableau
-    const tableTop = 200;
+    const tableTop = startY + 115;
     const formationX = 50;
     const formateurX = 300;
     const montantX = 470;
@@ -185,7 +192,7 @@ const telechargerPDF = async (req, res) => {
         .text(nomFormation, formationX, y)
         .text(nomFormateur, formateurX, y)
         .text(`${montantFormation.toFixed(2)} DT`, montantX, y, { align: "right" });
-      y += 20;
+      y += 30;
     });
 
     doc.moveTo(50, y + 10).lineTo(545, y + 10).stroke();
@@ -215,4 +222,27 @@ const getPdfFile = (req, res) => {
   }
 };
 
-module.exports = { creerFacture, telechargerPDF, getPdfFile };
+// Récupérer les factures d’un client ou entreprise
+// 📌 Récupération des factures d'une entreprise connectée
+const getFacturesByClient = async (req, res) => {
+  try {
+    if (!req.user) {
+      return res.status(401).json({ message: "Utilisateur non authentifié" });
+    }
+
+    if (req.user.role !== "entreprise") {
+      return res.status(403).json({ message: "Accès interdit" });
+    }
+
+    // 🔑 Récupération par email (ou id si tu stockes clientId dans la facture)
+    const factures = await Facture.find({ clientEmail: req.user.email });
+
+    res.json(factures);
+  } catch (error) {
+    console.error("Erreur lors de la récupération des factures :", error);
+    res.status(500).json({ message: "Erreur serveur" });
+  }
+};
+
+
+module.exports = { creerFacture, telechargerPDF, getPdfFile, getFacturesByClient  };

@@ -38,3 +38,50 @@
   font-weight: 600;
 }
 
+.home-admin-wrapper {
+  padding: 40px 20px;
+  transition: margin-left 0.3s ease;
+}
+
+.home-admin-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.home-admin-highlight {
+  color: #F27405;
+  font-weight: 700;
+}
+
+.admin-card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
+}
+
+.admin-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  border-radius: 12px;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.admin-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+}
+
+.admin-card-title {
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+}
+
+.admin-card-icon {
+  color: #333;
+}
+

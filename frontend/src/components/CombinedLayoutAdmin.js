@@ -27,7 +27,7 @@ const CombinedLayoutAdmin = ({ isSidebarOpen, toggleSidebar, children }) => {
       <nav className="navbar">
         <div className="navbar-left">
           <i className="bi bi-list toggle-btn" onClick={toggleSidebar}></i>
-          <span onClick={() => window.location.href = "/homeAdmin"} style={{ cursor: "pointer" }}>
+          <span onClick={() => window.location.href = "/Admin"} style={{ cursor: "pointer" }}>
             CPFMI
           </span>
         </div>
@@ -57,7 +57,7 @@ const CombinedLayoutAdmin = ({ isSidebarOpen, toggleSidebar, children }) => {
 
       <aside className={`sidebar ${isSidebarOpen ? "open" : ""}`}>
         <ul>
-          <li style={{ cursor: "pointer" }} onClick={() => (window.location.href = "/homeAdmin")}>
+          <li style={{ cursor: "pointer" }} onClick={() => (window.location.href = "/Admin")}>
             <i className="bi bi-speedometer2"></i>
             <span>Dashboard</span>
           </li>
@@ -84,7 +84,13 @@ const CombinedLayoutAdmin = ({ isSidebarOpen, toggleSidebar, children }) => {
         </ul>
       </aside>
 
-      <main className="main-content">
+      <main className="main-content"
+       style={{
+    marginLeft: isSidebarOpen ? "250px" : "80px", // largeur sidebar ouverte/fermée
+    transition: "margin-left 0.3s",
+    padding: "20px",
+  }}
+      >
         {children}
       </main>
     </div>

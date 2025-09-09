@@ -1,5 +1,12 @@
+// HomeFormateur.js
 import { useEffect, useState } from "react";
 import CombinedLayoutFormateur from "./combinedLayoutFormateur";
+import { 
+  FaMoneyCheckAlt, 
+  FaCalendarAlt, 
+  FaBookOpen, 
+  FaCheckSquare 
+} from "react-icons/fa";
 import "./homeFormateur.css";
 
 const HomeFormateur = () => {
@@ -8,56 +15,86 @@ const HomeFormateur = () => {
     role: "",
     lastLoginDate: "",
     email: "",
-    ip: ""
   });
 
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-
   const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
 
   useEffect(() => {
-    document.title = "HomeFormateur";
-    document.body.style.backgroundColor = "white";
+    document.title = "Panel Formateur";
+    document.body.style.backgroundColor = "#f5f7fa";
 
     setInfo({
       username: localStorage.getItem("username"),
       role: localStorage.getItem("role"),
       lastLoginDate: localStorage.getItem("lastLoginDate"),
       email: localStorage.getItem("email"),
-      ip: localStorage.getItem("ip")
     });
   }, []);
 
+  const features = [
+    {
+      title: "Notes d'Honoraires",
+      icon: <FaMoneyCheckAlt size={28} />,
+      color: "#f8d7da",
+      path: "/mes-honoraires"
+    },
+    {
+      title: "Gérer Disponibilités",
+      icon: <FaCalendarAlt size={28} />,
+      color: "#d1ecf1",
+      path: "/formateur-calendar"
+    },
+    {
+      title: "Consultation Formations",
+      icon: <FaBookOpen size={28} />,
+      color: "#d4edda",
+      path: "/formations"
+    },
+    {
+      title: "Validation Présences",
+      icon: <FaCheckSquare size={28} />,
+      color: "#cfe2ff",
+      path: "/validation-presences"
+    }
+  ];
+
+  const navigate = (path) => {
+    window.location.href = path;
+  };
+
   return (
-    <>
-      <CombinedLayoutFormateur isSidebarOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
-      <div
-        className="home-formateur-container"
-        style={{
-          marginLeft: isSidebarOpen ? "210px" : "90px",
-          marginTop: "80px",
-          transition: "margin-left 0.3s ease"
-        }}
-      >
-        <p className="home-formateur-title">
-          Bonjour : <span className="home-formateur-highlight">{info.role}</span> du <span className="home-formateur-highlight">{info.username}</span>
-        </p>
-        <p className="home-formateur-subtitle">
-          {info.lastLoginDate && info.lastLoginDate !== "null"
-            ? `Vous avez connecté la dernière fois : ${info.lastLoginDate}`
-            : "C'est votre première connexion"}
-        </p>
-        <p className="home-formateur-text">
-          Vous avez connecté avec votre email : {info.email}
-        </p>
-        <p className="home-formateur-text">
-          Avec l'IP : {info.ip}
-        </p>
-        <div className="home-formateur-footer">
-          Panel Formateur
+    <CombinedLayoutFormateur isSidebarOpen={isSidebarOpen} toggleSidebar={toggleSidebar}>
+      <div className="home-admin-wrapper">
+        {/* Header */}
+        <div className="home-admin-header">
+          <h2>
+            Bonjour <span className="home-admin-highlight">{info.username}</span> ({info.role})
+          </h2>
+          <p>
+            {info.lastLoginDate && info.lastLoginDate !== "null"
+              ? `Dernière connexion : ${info.lastLoginDate}`
+              : "C'est votre première connexion"}
+          </p>
+          <p>Email : {info.email}</p>
+        </div>
+
+        {/* Grille des fonctionnalités */}
+        <div className="admin-card-grid">
+          {features.map((item, index) => (
+            <div
+              key={index}
+              className="admin-card"
+              style={{ backgroundColor: item.color }}
+              onClick={() => navigate(item.path)}
+            >
+              <div className="admin-card-title">{item.title}</div>
+              <div className="admin-card-icon">{item.icon}</div>
+            </div>
+          ))}
         </div>
       </div>
-    </>
+    </CombinedLayoutFormateur>
   );
 };
 

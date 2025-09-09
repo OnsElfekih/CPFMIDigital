@@ -38,3 +38,57 @@
   font-weight: 600;
 }
 
+.home-entreprise-container {
+  padding: 20px;
+}
+
+.home-entreprise-title {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.home-entreprise-highlight {
+  color: #007bff;
+}
+
+.home-entreprise-subtitle {
+  margin: 5px 0;
+  color: #555;
+}
+
+.home-entreprise-text {
+  margin: 3px 0;
+  color: #666;
+}
+
+.dashboard-cards {
+  margin-top: 30px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 20px;
+}
+
+.dashboard-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 25px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.dashboard-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0px 5px 15px rgba(0,0,0,0.15);
+}
+
+.dashboard-icon {
+  margin-bottom: 10px;
+}
+
+.dashboard-title {
+  font-size: 16px;
+  font-weight: bold;
+}

@@ -1,36 +1,55 @@
-/* Container général */
+/* -------------------------
+   Container principal
+-------------------------- */
 .honoraire-container {
-  max-width: 900px;
+  max-width: 1000px;
   margin: 40px auto;
-  padding: 0 20px;
+  padding: 25px;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   color: #333;
   background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 12px 24px rgba(0,0,0,0.1);
+  border-radius: 16px;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.08);
 }
 
-/* Titre */
+/* -------------------------
+   Titre principal
+-------------------------- */
 .honoraire-container h2 {
   text-align: center;
-  margin-bottom: 25px;
+  margin-bottom: 30px;
   font-weight: 700;
-  font-size: 1.8rem;
-  color: #222;
+  font-size: 2rem;
+  color: #1976d2;
+  position: relative;
 }
 
-/* Table wrapper pour le scroll horizontal */
+.honoraire-container h2::after {
+  content: "";
+  display: block;
+  width: 60px;
+  height: 4px;
+  background: #1976d2;
+  margin: 10px auto 0;
+  border-radius: 2px;
+}
+
+/* -------------------------
+   Table wrapper
+-------------------------- */
 .table-wrapper {
   overflow-x: auto;
   border-radius: 12px;
 }
 
-/* Tableau */
+/* -------------------------
+   Tableau
+-------------------------- */
 table {
   width: 100%;
   border-collapse: separate;
-  border-spacing: 0 12px;
-  min-width: 600px;
+  border-spacing: 0 10px;
+  min-width: 700px;
 }
 
 /* En-tête */
@@ -38,23 +57,25 @@ thead th {
   background-color: #1976d2;
   color: white;
   text-align: left;
-  padding: 12px 20px;
+  padding: 14px 20px;
   font-weight: 600;
   font-size: 1rem;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.04em;
+  border-radius: 8px 8px 0 0;
 }
 
 /* Lignes */
 tbody tr {
-  background: #f7f9fc;
-  transition: background-color 0.3s ease;
+  background: #f9fbfd;
+  transition: background-color 0.3s ease, transform 0.2s ease;
   cursor: default;
-  border-radius: 10px;
-  box-shadow: 0 3px 6px rgba(25, 118, 210, 0.1);
+  border-radius: 12px;
+  box-shadow: 0 3px 8px rgba(25, 118, 210, 0.08);
 }
 
 tbody tr:hover {
-  background-color: #e3f2fd;
+  background-color: #eef6fd;
+  transform: translateY(-2px);
 }
 
 /* Cellules */
@@ -65,42 +86,51 @@ td {
   color: #444;
 }
 
-/* Badge statut */
-.status {
+/* -------------------------
+   Badge Statut
+-------------------------- */
+.statut {
   padding: 6px 14px;
   border-radius: 20px;
   font-weight: 700;
   font-size: 0.85rem;
   text-transform: capitalize;
   display: inline-block;
-  min-width: 80px;
+  min-width: 90px;
   text-align: center;
-  box-shadow: 0 2px 5px rgb(0 0 0 / 0.1);
+  box-shadow: 0 2px 6px rgb(0 0 0 / 0.1);
   user-select: none;
 }
 
-/* Couleurs des statuts */
-.status.validée {
-  background-color: #ffecb3; /* jaune clair */
-  color: #f57c00; /* orange */
+/* Couleurs statuts */
+.statut.envoyée {
+  background-color: #e3f2fd;
+  color: #1565c0;
 }
 
-.status.envoyée {
-  background-color: #bbdefb; /* bleu clair */
-  color: #1565c0; /* bleu foncé */
+.statut.validée {
+  background-color: #fff3cd;
+  color: #856404;
 }
 
-.status.payée {
-  background-color: #c8e6c9; /* vert clair */
-  color: #2e7d32; /* vert foncé */
+.statut.payée {
+  background-color: #d4edda;
+  color: #155724;
 }
 
-/* Lien téléchargement */
+.statut.inconnu {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+/* -------------------------
+   Lien téléchargement
+-------------------------- */
 .download-link {
   color: #1976d2;
   font-weight: 600;
   text-decoration: none;
-  transition: color 0.3s ease;
+  transition: all 0.3s ease;
   border-bottom: 1.5px solid transparent;
 }
 
@@ -109,16 +139,18 @@ td {
   border-bottom-color: #004ba0;
 }
 
-/* Texte "non disponible" */
+/* Texte non disponible */
 .no-pdf {
   color: #999;
   font-style: italic;
 }
 
-/* Responsive */
-@media (max-width: 600px) {
+/* -------------------------
+   Responsive
+-------------------------- */
+@media (max-width: 768px) {
   .honoraire-container {
-    padding: 10px 12px;
+    padding: 15px;
   }
 
   thead th, td {
@@ -126,36 +158,11 @@ td {
     font-size: 0.85rem;
   }
 
-  .status {
-    min-width: 60px;
+  .statut {
+    min-width: 70px;
     padding: 4px 10px;
     font-size: 0.75rem;
   }
 }
 
-.page-container {
-  display: flex;
-  flex-direction: column;
-}
 
-.main-content {
-  margin-left: 200px; /* largeur de la sidebar */
-  padding: 20px;
-  transition: margin-left 0.3s ease;
-}
-
-.main-content.full-width {
-  margin-left: 0;
-}
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 20px;
-}
-
-table th, table td {
-  padding: 10px;
-  border: 1px solid #ccc;
-  text-align: left;
-}

@@ -1,3 +1,4 @@
+// models/Disponibilite.js
 const mongoose = require('mongoose');
 
 const disponibiliteSchema = new mongoose.Schema({
@@ -7,14 +8,15 @@ const disponibiliteSchema = new mongoose.Schema({
     required: true,
   },
   date: {
-    type: Date,
+    type: Date,  // ⚡️ Utiliser Date plutôt que String
     required: true,
   },
   periode: {
     type: String,
-    enum: ['matin', 'après-midi'],  // Accent ici important !
+    enum: ['matin', 'après-midi'], // utiliser "apres-midi" sans accent pour compatibilité frontend
     required: true,
   },
+  formation: { type: String }
 });
 
 module.exports = mongoose.model('Disponibilite', disponibiliteSchema);

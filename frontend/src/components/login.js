@@ -52,7 +52,7 @@ const Login = () => {
     setError(null);
 
     try {
-      const response = await fetch("http://localhost:3001/users/login", {
+      const response = await fetch("http://localhost:3001/api/users/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
@@ -63,25 +63,32 @@ const Login = () => {
       if (!response.ok) throw new Error(data.message || "Échec de la connexion");
 
       // Stockage des infos session (sans localStorage savedEmail/password)
-      localStorage.setItem("userId", data.userId);
+      localStorage.setItem("formateurId", data.formateurId || "");
       localStorage.setItem("username", data.username);
       localStorage.setItem("role", data.role);
       localStorage.setItem("lastLoginDate", data.lastLoginDate);
       localStorage.setItem("email", data.email);
       localStorage.setItem("ip", data.ip);
+      // Optionnel (pratique pour d'autres écrans) : garder un objet utilisateur
+      localStorage.setItem("utilisateur", JSON.stringify({
+        _id: data.formateurId || data.userId, // fallback au userId si pas de formateur
+        username: data.username,
+        email: data.email,
+        role: data.role
+      }));
 
     Cookies.set("token", data.token, { expires: 1, secure: true, sameSite: "Strict" });
     Cookies.set("role", data.role, { expires: 1, secure: true, sameSite: "Strict" });
 
       switch (data.role) {
         case "admin":
-          navigate("/homeAdmin");
+          navigate("/Admin");
           break;
         case "entreprise":
-          navigate("/homeentreprise");
+          navigate("/entreprise");
           break;
         case "formateur":
-          navigate("/homeformateur");
+          navigate("/formateur");
           break;
         default:
           break;
