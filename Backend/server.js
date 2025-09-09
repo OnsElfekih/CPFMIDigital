@@ -10,13 +10,9 @@ const formations = require("./routes/api/formations");
 const formateurRoutes = require("./routes/api/formateurRoutes");
 const planningRoutes = require("./routes/api/planningRoutes");
 const evaluationRoutes = require("./routes/api/evaluationRoutes");
-const formations = require("./routes/api/formations");
-const formateursRoutes=require("./routes/api/formateur");
+const formateursRoutes = require("./routes/api/formateur"); // si besoin (vérifie doublon avec formateurRoutes)
 const participantRoutes = require("./routes/api/participants");
 const entrepriseRoutes = require("./routes/api/Entreprises");
-
-
-
 
 const factureRoutes = require("./routes/api/factureRoutes");
 const emailRoutes = require("./routes/api/emailRoutes");
@@ -25,7 +21,6 @@ const publicDisponibiliteRoutes = require("./routes/api/publicDisponibiliteRoute
 const honoraireRoutes = require("./routes/api/honoraireRoutes");
 const certifications = require("./routes/api/certifications");
 const evalFormations = require("./routes/api/evaluationFormation");
-// const formateursRoutes = require("./routes/api/formateur"); // Semble être un doublon, vérifie si utile
 
 const app = express();
 
@@ -49,8 +44,7 @@ app.use("/api/users", users);
 app.use("/api/formations", formations);
 app.use("/api/formateurs", formateurRoutes);
 app.use("/api/participants", participantRoutes);
-app.use("/api/entreprises", entrepriseRoutes); // ✅ branchement correct
-
+app.use("/api/entreprises", entrepriseRoutes);
 
 app.use("/api/planning", planningRoutes);
 app.use("/api/evaluationRoutes", evaluationRoutes);
@@ -61,6 +55,7 @@ app.use("/api/public-disponibilites", publicDisponibiliteRoutes);
 app.use("/api/honoraires", honoraireRoutes);
 app.use("/api/certifications", certifications);
 app.use("/api/evalformation", evalFormations);
+
 app.use("/pdf", express.static(path.join(__dirname, "pdf")));
 
 // Démarrage du serveur
